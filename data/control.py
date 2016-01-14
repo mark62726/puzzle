@@ -2,7 +2,7 @@
 import os
 import pygame as pg
 from .states import splash, game
-import prepare
+from . import prepare
 
 
 class Control():

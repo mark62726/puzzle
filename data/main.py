@@ -2,6 +2,6 @@
 
 from .control import Control
 
-def main(**settings):
-    app = Control(**settings)
+def main():
+    app = Control()
     app.run()

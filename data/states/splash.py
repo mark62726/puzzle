@@ -1,5 +1,5 @@
 import pygame as pg
-import state
+from . import state
 from .. import prepare
 
 class Splash(state.State):
@@ -11,10 +11,10 @@ class Splash(state.State):
         if event.type == pg.KEYDOWN:
             self.done = True
         
-    def update(self, dt, keys):
+    def update(self, now, keys):
         pg.mouse.set_visible(False)
-        if pg.time.get_ticks()-self.timer > 2000:
-            self.timer = pg.time.get_ticks()
+        if now-self.timer > 2000:
+            self.timer = now
             self.done = True
         
     def render(self):

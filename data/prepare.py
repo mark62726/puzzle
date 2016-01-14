@@ -15,6 +15,7 @@ pg.init()
 
 MONITOR_SIZE = (pg.display.Info().current_w, pg.display.Info().current_h)
 
+#set position of window
 if ARGS['center']:
     os.environ['SDL_VIDEO_CENTERED'] = "True"
 else:
@@ -22,12 +23,12 @@ else:
     
 pg.display.set_caption(CAPTION)
 
+#change size of window
 if ARGS['winsize']:
     START_SIZE = (
         int(ARGS['winsize'][0]), 
         int(ARGS['winsize'][1]) 
     )
-
 if ARGS['fullscreen']:
     SCREEN = pg.display.set_mode(START_SIZE, pg.FULLSCREEN)
 else:
