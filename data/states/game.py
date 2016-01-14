@@ -6,6 +6,8 @@ class Game(state.State):
     def __init__(self):
         state.State.__init__(self)
         self.next = 'SPLASH'
+        self.bg_orig = prepare.GFX['bg']
+        self.bg = pg.transform.smoothscale(self.bg_orig, prepare.SCREEN_RECT.size)
         
     def get_event(self, event, keys):
         if event.type == pg.KEYDOWN:
@@ -18,7 +20,7 @@ class Game(state.State):
             self.done = True
         
     def render(self):
-        prepare.SCREEN.blit(prepare.GFX['bg'],(0,0))
+        prepare.SCREEN.blit(self.bg,(0,0))
         
     def cleanup(self):
         pass

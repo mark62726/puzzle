@@ -6,6 +6,8 @@ class Splash(state.State):
     def __init__(self):
         state.State.__init__(self)
         self.next = 'GAME'
+        self.bg_orig = prepare.GFX['splash_page']
+        self.bg = pg.transform.smoothscale(self.bg_orig, prepare.SCREEN_RECT.size)
         
     def get_event(self, event, keys):
         if event.type == pg.KEYDOWN:
@@ -18,7 +20,7 @@ class Splash(state.State):
             self.done = True
         
     def render(self):
-        prepare.SCREEN.blit(prepare.GFX['splash_page'],(0,0))
+        prepare.SCREEN.blit(self.bg,(0,0))
         
     def cleanup(self):
         pass
