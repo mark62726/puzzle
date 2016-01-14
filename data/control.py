@@ -29,12 +29,13 @@ class Control():
                 self.keys = pg.key.get_pressed()
             self.state.get_event(event, self.keys)
 
-    def change_state(self):
+    def change_state(self, now):
         if self.state.done:
             self.state.cleanup()
             self.state_name = self.state.next
             self.state.done = False
             self.state = self.state_dict[self.state_name]
+            self.state.timer = now
             self.state.entry()
 
     def run(self):
@@ -43,10 +44,10 @@ class Control():
                 self.done = True
             now = pg.time.get_ticks()
             self.event_loop()
-            self.change_state()
+            self.change_state(now)
+            delta_time = self.clock.tick(prepare.FPS)
             self.state.update(now, self.keys)
             self.state.render()
             pg.display.update()
-            self.clock.tick(prepare.FPS)
 
 
