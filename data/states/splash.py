@@ -5,7 +5,7 @@ from .. import prepare
 class Splash(state.State):
     def __init__(self):
         state.State.__init__(self)
-        self.next = 'GAME'
+        self.next = 'MENU'
         self.bg_orig = prepare.GFX['splash_page']
         self.bg = pg.transform.smoothscale(self.bg_orig, prepare.SCREEN_RECT.size)
         
@@ -23,7 +23,7 @@ class Splash(state.State):
         prepare.SCREEN.blit(self.bg,(0,0))
         
     def cleanup(self):
-        pass
+        pg.mixer.music.play()
         
     def entry(self):
         pass

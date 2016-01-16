@@ -1,6 +1,7 @@
 
 import os
 import pygame as pg
+from .states.menu_states import menu, options, audio, credits
 from .states import splash, game
 from . import prepare
 
@@ -11,11 +12,14 @@ class Control():
         self.keys = None
         self.done = False
         self.state_dict = {
-        #    "MENU"     : menu.Menu(self.screen_rect),
-            "SPLASH"   : splash.Splash(),
-        #    'TITLE'    : title.Title(self.screen_rect),
-            'GAME'     : game.Game(),
-        #    'OPTIONS'  : options.Options(self.screen_rect, self.default_screensize, self.fullscreen),
+            "MENU"      : menu.Menu(),
+            "SPLASH"    : splash.Splash(),
+            'GAME'      : game.Game(),
+            'OPTIONS'   : options.Options(),
+            'AUDIO'     : audio.Audio(),
+            'AUDIO'     : audio.Audio(),
+            'CREDITS'   : credits.Credits(),
+            'DISABLED'  :None
         }
 
         self.state_name = "SPLASH"
@@ -31,12 +35,13 @@ class Control():
 
     def change_state(self, now):
         if self.state.done:
-            self.state.cleanup()
-            self.state_name = self.state.next
-            self.state.done = False
-            self.state = self.state_dict[self.state_name]
-            self.state.timer = now
-            self.state.entry()
+            if not self.state.next == 'DISABLED':
+                self.state.cleanup()
+                self.state_name = self.state.next
+                self.state.done = False
+                self.state = self.state_dict[self.state_name]
+                self.state.timer = now
+                self.state.entry()
 
     def run(self):
         while not self.done:

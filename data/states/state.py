@@ -4,13 +4,13 @@ from ..components import button
 
 class State:
     '''
-    Super class for all games states 
+    Super class for all states 
     '''
     def __init__(self):
         self.quit = False #quit game
         self.done = False #quit state
         self.timer = 0.0
-        self.music = tools.Music(volume=1)
+        self.music = tools.Music(volume=.3)
         
         
         self.buttons = tools.strip_from_sheet(prepare.GFX['arrows'], (0,0), (62,62), 5,3)
