@@ -8,9 +8,6 @@ class Game(state.State):
         state.State.__init__(self)
         self.next = 'SPLASH'
         self.setup_bg()
-        self.setup_buttons()
-        
-        #self.obj = self.btn_dict['turnaround_arrow']
         
     def setup_bg(self):
         self.bg_orig = prepare.GFX['bg']
@@ -23,6 +20,7 @@ class Game(state.State):
         elif event.type == pg.MOUSEBUTTONUP and event.button == 1:
             for v in self.btn_dict.values():
                 v.click = False
+        self.music.get_event(event)
         
     def update(self, now, keys):
         pg.mouse.set_visible(True)
@@ -44,7 +42,7 @@ class Game(state.State):
         pass
         
     def entry(self):
-        pass
+        pg.mixer.music.play()
         
 
         

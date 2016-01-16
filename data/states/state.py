@@ -10,8 +10,9 @@ class State:
         self.quit = False #quit game
         self.done = False #quit state
         self.timer = 0.0
+        self.music = tools.Music(volume=1)
         
-    def setup_buttons(self):
+        
         self.buttons = tools.strip_from_sheet(prepare.GFX['arrows'], (0,0), (62,62), 5,3)
         self.btn_dict = {
             'turnaround_arrow'      :button.ImageDrag(self.buttons[0]),

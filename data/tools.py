@@ -103,6 +103,29 @@ def get_cli_args(caption, win_pos, start_size):
         args['resizable'] = False
     return args
     
+class Music:
+    '''separate music handler from prepare module'''
+    def __init__(self, volume):
+        self.path = os.path.join('resources', 'music')
+        self.setup(volume)
+        
+    def setup(self, volume):
+        self.track_end = pg.USEREVENT+1
+        self.tracks = []
+        self.track = 0
+        for track in os.listdir(self.path):
+            self.tracks.append(os.path.join(self.path, track))
+        random.shuffle(self.tracks)
+        pg.mixer.music.set_volume(volume)
+        pg.mixer.music.set_endevent(self.track_end)
+        pg.mixer.music.load(self.tracks[0])
+        
+    def get_event(self, event):
+        if event.type == self.track_end:
+            self.track = (self.track+1) % len(self.tracks)
+            pg.mixer.music.load(self.tracks[self.track]) 
+            pg.mixer.music.play()
+    
 ### Resource loading functions.
 def load_all_gfx(directory,colorkey=(0,0,0),accept=(".png",".jpg",".bmp")):
     """
