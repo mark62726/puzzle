@@ -19,10 +19,11 @@ class Menus(state.State):
         self.selected_index = 0
         
     def setup_title(self):
-        self.title, self.title_rect = self.make_text(self.title_text, (75,75,75), (prepare.SCREEN_RECT.centerx, 75), 150)
+        self.title, self.title_rect = self.make_text(
+            self.title_text, (75,75,75), (prepare.SCREEN_RECT.centerx, 75), 150, prepare.FONTS['3rdman'])
         
-    def make_text(self,message,color,center,size):
-        font = pg.font.Font(prepare.FONTS['3rdman'], size)
+    def make_text(self,message,color,center,size, fonttype):
+        font = pg.font.Font(fonttype, size)
         text = font.render(message,True,color)
         rect = text.get_rect(center=center)
         return text,rect
@@ -49,11 +50,11 @@ class Menus(state.State):
                     self.select_option(i)
                     break
                     
-    def addition_event_handler(self, event):
+    def additional_event_handler(self, event):
         pass
 
     def get_event(self, event, keys):
-        self.addition_event_handler(event)
+        self.additional_event_handler(event)
         if event.type == pg.QUIT:
             self.quit = True
         elif event.type == pg.KEYDOWN:
@@ -71,6 +72,9 @@ class Menus(state.State):
         pg.mouse.set_visible(True)
         #self.mouse_hover_sound()
         self.change_selected_option()
+        
+    def additional_render(self):
+        pass
 
     def render(self):
         prepare.SCREEN.blit(self.bg,(0,0))
@@ -83,6 +87,7 @@ class Menus(state.State):
                 prepare.SCREEN.blit(rend_img,rend_rect)
             else:
                 prepare.SCREEN.blit(opt[0],opt[1])
+        self.additional_render()
                 
     def select_option(self, i):
         '''select menu option via keys or mouse'''

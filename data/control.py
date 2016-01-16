@@ -35,7 +35,7 @@ class Control():
 
     def change_state(self, now):
         if self.state.done:
-            if not self.state.next == 'DISABLED':
+            if not self.state.next in ['DISABLED', 'TOGGLE']:
                 self.state.cleanup()
                 self.state_name = self.state.next
                 self.state.done = False

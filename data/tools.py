@@ -122,7 +122,10 @@ class Music:
         
     def get_event(self, event):
         if event.type == self.track_end:
-            self.track = (self.track+1) % len(self.tracks)
+            self.switch_track()
+            
+    def switch_track(self, direction=1):
+            self.track = (self.track+direction) % len(self.tracks)
             pg.mixer.music.load(self.tracks[self.track]) 
             pg.mixer.music.play()
     
