@@ -7,6 +7,9 @@ import random
 import sys
 import json
 import argparse
+import traceback
+from time import gmtime, strftime
+import platform
         
 class DB:
     dirname = 'save'
@@ -27,6 +30,22 @@ class DB:
         f = open(DB.path, 'w')
         f.write(json.dumps(obj))
         f.close()
+        
+class Error:
+    @staticmethod
+    def create_report():
+        date = 'DATE: {}'.format(strftime("%m-%d-%Y %H:%M:%S", gmtime()))
+        os = 'OS: {}'.format(platform.platform())
+        s = traceback.format_exc()
+        f = open('error.log', 'r+')
+        content = f.read()
+        f.seek(0, 0)
+        f.write('{}\n'.format(date))
+        f.write('{}\n'.format(os))
+        f.write('{}\n'.format(s))
+        f.write(content)
+        f.close()
+        print(s)
 
 def clean_files():
     '''remove all pyc files and __pycache__ direcetories in subdirectory'''
