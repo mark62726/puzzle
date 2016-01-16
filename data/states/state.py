@@ -10,7 +10,8 @@ class State:
         self.quit = False #quit game
         self.done = False #quit state
         self.timer = 0.0
-        self.music = tools.Music(volume=.3)
+        self.music_volume = .3
+        self.music = tools.Music(volume=self.music_volume)
         
         
         self.buttons = tools.strip_from_sheet(prepare.GFX['arrows'], (0,0), (62,62), 5,3)

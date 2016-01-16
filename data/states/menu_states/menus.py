@@ -21,6 +21,7 @@ class Menus(state.State):
     def setup_title(self):
         self.title, self.title_rect = self.make_text(
             self.title_text, (75,75,75), (prepare.SCREEN_RECT.centerx, 75), 150, prepare.FONTS['3rdman'])
+            
         
     def make_text(self,message,color,center,size, fonttype):
         font = pg.font.Font(fonttype, size)
@@ -68,7 +69,11 @@ class Menus(state.State):
         self.mouse_menu_click(event)
         self.music.get_event(event)
 
+    def additional_update(self):
+        pass
+        
     def update(self, now, keys):
+        self.additional_update()
         pg.mouse.set_visible(True)
         #self.mouse_hover_sound()
         self.change_selected_option()
