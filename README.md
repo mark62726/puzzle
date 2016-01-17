@@ -1,4 +1,5 @@
-<img src="http://imgur.com/inozkh1"/> <img src="http://imgur.com/rU7fgvG"/>
+![alt tag](http://imgur.com/inozkh1)
+![alt tag](http://imgur.com/rU7fgvG)
 
 ###arguments
 run game with defaults
