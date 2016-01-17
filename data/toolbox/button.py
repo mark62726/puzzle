@@ -34,6 +34,7 @@ class Button(object):
             'disabled'          : False,
             'disabled_color'     : pg.Color('grey'),
             'radius'            : 3,
+            'ever_clicked'      : False,
         }
         for kwarg in kwargs:
             if kwarg in settings:
@@ -63,6 +64,7 @@ class Button(object):
     def on_click(self,event):
         if self.rect.collidepoint(event.pos):
             self.clicked = True
+            self.ever_clicked = True
             if not self.call_on_release:
                 self.function()
 

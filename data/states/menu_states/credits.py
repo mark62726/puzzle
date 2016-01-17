@@ -13,6 +13,7 @@ class Credits(menus.Menus):
         self.from_bottom = 500
     
     def addition_event_handler(self, event):
+        #worked when first applied, but no longer effective for ?
         if event.type == pg.KEYDOWN or event.type == pg.MOUSEBUTTONDOWN:
             self.select_option(0)
         

@@ -34,6 +34,8 @@ class DB:
 class Error:
     @staticmethod
     def create_report():
+        open('error.log','w').close()
+        
         date = 'DATE: {}'.format(strftime("%m-%d-%Y %H:%M:%S", gmtime()))
         os = 'OS: {}'.format(platform.platform())
         s = traceback.format_exc()
@@ -137,7 +139,7 @@ class Music:
         random.shuffle(self.tracks)
         pg.mixer.music.set_volume(volume)
         pg.mixer.music.set_endevent(self.track_end)
-        pg.mixer.music.load(self.tracks[0])
+        pg.mixer.music.load(self.tracks[self.track])
         
     def get_event(self, event):
         if event.type == self.track_end:
@@ -147,6 +149,10 @@ class Music:
             self.track = (self.track+direction) % len(self.tracks)
             pg.mixer.music.load(self.tracks[self.track]) 
             pg.mixer.music.play()
+            
+    def track_name(self, track_path):
+        return os.path.splitext(os.path.split(track_path)[1])[0].replace('_', ' ').title()
+
     
 ### Resource loading functions.
 def load_all_gfx(directory,colorkey=(0,0,0),accept=(".png",".jpg",".bmp")):

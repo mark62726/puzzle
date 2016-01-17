@@ -7,15 +7,15 @@ from ... import prepare
 class Audio(menus.Menus):
     def __init__(self):
         menus.Menus.__init__(self)
-        self.options = ['Sound','Back']
-        self.next_list = ['DISABLED','MENU']
+        self.options = ['Back']
+        self.next_list = ['MENU']
         self.title_text = 'Audio'
         self.pre_render_options()
         self.setup_title()
         self.from_bottom = 300
         self.music_select_label, self.music_select_label_rect = self.make_text(
             'Switch Music Track', (0,0,0), (prepare.SCREEN_RECT.centerx, 162), 15, prepare.FONTS['impact'])
-        self.update_volume_label()
+        #self.update_labels()
         
         button_config = {
             "hover_color"        : (150,150,150),
@@ -38,10 +38,15 @@ class Audio(menus.Menus):
             lambda x=-1:self.music_modify(-.1), text='-', **button_config
         )
         
-    def update_volume_label(self):
+    def update_labels(self):
         self.volume_select_label, self.volume_select_label_rect = self.make_text(
             'Music Volume {}'.format(int(self.music_volume*10)), (0,0,0), (prepare.SCREEN_RECT.centerx, 212), 15, prepare.FONTS['impact'])
-        
+            
+        self.music_song_label, self.music_song_label_rect = self.make_text(
+            '{}'.format(
+                self.music.track_name(self.music.tracks[self.music.track])), 
+            (0,0,0), (prepare.SCREEN_RECT.centerx, 187), 15, prepare.FONTS['impact'])
+    
     def music_modify(self, amount=.1):
         self.music_volume += amount
         if self.music_volume > .9:
@@ -51,7 +56,7 @@ class Audio(menus.Menus):
         pg.mixer.music.set_volume(self.music_volume)
         
     def additional_update(self):
-        self.update_volume_label()
+        self.update_labels()
         
     def additional_event_handler(self, event):
         self.next_button.check_event(event)
@@ -66,5 +71,7 @@ class Audio(menus.Menus):
         self.vol_down_button.render(prepare.SCREEN)
         prepare.SCREEN.blit(self.music_select_label, self.music_select_label_rect)
         prepare.SCREEN.blit(self.volume_select_label, self.volume_select_label_rect)
+        if self.next_button.ever_clicked or self.prev_button.ever_clicked:
+            prepare.SCREEN.blit(self.music_song_label, self.music_song_label_rect)
 
         
