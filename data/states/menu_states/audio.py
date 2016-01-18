@@ -14,8 +14,8 @@ class Audio(menus.Menus):
         self.setup_title()
         self.from_bottom = 300
         self.screen_rect = prepare.SCREEN_RECT
-        self.setup_music_select_label(prepare.SCREEN_RECT)
-        self.update_labels(prepare.SCREEN_RECT)
+        self.setup_music_select_label(self.screen_rect)
+        self.update_labels(self.screen_rect)
         
         button_config = {
             "hover_color"        : (150,150,150),

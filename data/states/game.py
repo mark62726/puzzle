@@ -7,11 +7,12 @@ class Game(state.State):
     def __init__(self):
         state.State.__init__(self)
         self.next = 'MENU'
-        self.setup_bg(prepare.SCREEN_RECT)
+        self.screen_rect = prepare.SCREEN_RECT
+        self.setup_bg(self.screen_rect)
         
     def setup_bg(self, screen_rect):
         self.bg_orig = prepare.GFX['bg']
-        self.bg = pg.transform.smoothscale(self.bg_orig, screen_rect.size)
+        self.bg = pg.transform.smoothscale(self.bg_orig, self.screen_rect.size)
         
     def get_event(self, event, keys):
         if event.type == pg.KEYDOWN:
@@ -31,7 +32,7 @@ class Game(state.State):
             self.timer = now
             
         for v in self.btn_dict.values():
-            v.update(prepare.SCREEN_RECT)
+            v.update(self.screen_rect)
         
     def render(self, surface):
         surface.blit(self.bg,(0,0))
@@ -46,8 +47,9 @@ class Game(state.State):
     def entry(self):
         pass
         
-    def on_resize(self, screen_size):
-        self.setup_bg(screen_size)
+    def on_resize(self, screen_rect):
+        self.setup_bg(screen_rect)
+        self.screen_rect = screen_rect
         
 
         
