@@ -25,7 +25,7 @@ class Game(state.State):
                 v.click = False
         self.music.get_event(event)
         
-    def update(self, now, keys):
+    def update(self, now, keys, scale):
         pg.mouse.set_visible(True)
         if now-self.timer > 1000:
             self.timer = now
@@ -33,12 +33,11 @@ class Game(state.State):
         for v in self.btn_dict.values():
             v.update(prepare.SCREEN_RECT)
         
-    def render(self):
-        prepare.SCREEN.blit(self.bg,(0,0))
-        
+    def render(self, surface):
+        surface.blit(self.bg,(0,0))
         
         for v in self.btn_dict.values():
-            prepare.SCREEN.blit(v.image, v.rect)
+            surface.blit(v.image, v.rect)
         
         
     def cleanup(self):

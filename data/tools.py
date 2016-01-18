@@ -295,3 +295,11 @@ def render_textrect(string, font, rect, text_color, background_color, justificat
         accumulated_height += font.size(line)[1]
 
     return surface
+
+def scaled_mouse_pos(scale, pos=None):
+    """
+    Return the mouse position adjusted for screen size if no pos argument is
+    passed and returns pos adjusted for screen size if pos is passed.
+    """
+    x,y = pg.mouse.get_pos() if pos is None else pos
+    return (int(x*scale[0]), int(y*scale[1]))

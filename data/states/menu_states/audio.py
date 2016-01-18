@@ -13,8 +13,7 @@ class Audio(menus.Menus):
         self.pre_render_options()
         self.setup_title()
         self.from_bottom = 300
-        self.music_select_label, self.music_select_label_rect = self.make_text(
-            'Switch Music Track', (0,0,0), (prepare.SCREEN_RECT.centerx, 162), 15, prepare.FONTS['impact'])
+        self.setup_music_select_label(prepare.SCREEN_RECT)
         #self.update_labels()
         
         button_config = {
@@ -37,6 +36,10 @@ class Audio(menus.Menus):
         self.vol_down_button = button.Button((225,200,100,25),(100,100,100), 
             lambda x=-1:self.music_modify(-.1), text='-', **button_config
         )
+        
+    def setup_music_select_label(self, screen_rect):
+        self.music_select_label, self.music_select_label_rect = self.make_text(
+            'Switch Music Track', (0,0,0), (screen_rect.centerx, 162), 15, prepare.FONTS['impact'])
         
     def update_labels(self):
         self.volume_select_label, self.volume_select_label_rect = self.make_text(
@@ -64,14 +67,17 @@ class Audio(menus.Menus):
         self.vol_up_button.check_event(event)
         self.vol_down_button.check_event(event)
     
-    def additional_render(self):
-        self.next_button.render(prepare.SCREEN)
-        self.prev_button.render(prepare.SCREEN)
-        self.vol_up_button.render(prepare.SCREEN)
-        self.vol_down_button.render(prepare.SCREEN)
-        prepare.SCREEN.blit(self.music_select_label, self.music_select_label_rect)
-        prepare.SCREEN.blit(self.volume_select_label, self.volume_select_label_rect)
+    def additional_render(self, surface):
+        self.next_button.render(surface)
+        self.prev_button.render(surface)
+        self.vol_up_button.render(surface)
+        self.vol_down_button.render(surface)
+        surface.blit(self.music_select_label, self.music_select_label_rect)
+        surface.blit(self.volume_select_label, self.volume_select_label_rect)
         if self.next_button.ever_clicked or self.prev_button.ever_clicked:
-            prepare.SCREEN.blit(self.music_song_label, self.music_song_label_rect)
+            surface.blit(self.music_song_label, self.music_song_label_rect)
+            
+    def on_resize(self, screen_rect):
+        self.setup_music_select_label(screen_rect)
 
         

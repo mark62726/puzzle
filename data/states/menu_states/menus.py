@@ -10,7 +10,7 @@ class Menus(state.State):
     def __init__(self):
         state.State.__init__(self)
         self.bg_orig = prepare.GFX['old_paper']
-        self.bg = pg.transform.smoothscale(self.bg_orig, prepare.SCREEN_RECT.size)
+        self.setup_bg(prepare.SCREEN_RECT)
         self.selected_color = (235,0,0)
         self.deselected_color = (15,15,15)
         self.title_text = None
@@ -18,10 +18,12 @@ class Menus(state.State):
         self.spacer = 75
         self.selected_index = 0
         
+    def setup_bg(self, screen_rect):
+        self.bg = pg.transform.smoothscale(self.bg_orig, screen_rect.size)
+        
     def setup_title(self):
         self.title, self.title_rect = self.make_text(
             self.title_text, (75,75,75), (prepare.SCREEN_RECT.centerx, 75), 150, prepare.FONTS['3rdman'])
-            
         
     def make_text(self,message,color,center,size, fonttype):
         font = pg.font.Font(fonttype, size)
@@ -72,27 +74,27 @@ class Menus(state.State):
     def additional_update(self):
         pass
         
-    def update(self, now, keys):
+    def update(self, now, keys, scale):
         self.additional_update()
         pg.mouse.set_visible(True)
         #self.mouse_hover_sound()
         self.change_selected_option()
         
-    def additional_render(self):
+    def additional_render(self, surface):
         pass
 
-    def render(self):
-        prepare.SCREEN.blit(self.bg,(0,0))
-        prepare.SCREEN.blit(self.title,self.title_rect)
+    def render(self, surface):
+        surface.blit(self.bg,(0,0))
+        surface.blit(self.title,self.title_rect)
         for i,opt in enumerate(self.rendered["des"]):
-            opt[1].center = (prepare.SCREEN_RECT.centerx, self.from_bottom+i*self.spacer)
+            opt[1].center = (surface.get_rect().centerx, self.from_bottom+i*self.spacer)
             if i == self.selected_index:
                 rend_img,rend_rect = self.rendered["sel"][i]
                 rend_rect.center = opt[1].center
-                prepare.SCREEN.blit(rend_img,rend_rect)
+                surface.blit(rend_img,rend_rect)
             else:
-                prepare.SCREEN.blit(opt[0],opt[1])
-        self.additional_render()
+                surface.blit(opt[0],opt[1])
+        self.additional_render(surface)
                 
     def select_option(self, i):
         '''select menu option via keys or mouse'''
@@ -124,4 +126,7 @@ class Menus(state.State):
         
     def entry(self):
         pass
+        
+    def on_resize(self, screen_rect):
+        self.setup_bg(screen_rect)
         

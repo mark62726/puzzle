@@ -45,3 +45,6 @@ class State:
             'bent_arrow_up'         :button.ImageDrag(self.buttons[13]),
             's_curve_arrow'         :button.ImageDrag(self.buttons[14]),
         }
+        
+    def update(self, now, keys, scale):
+        pass

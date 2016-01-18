@@ -13,14 +13,14 @@ class Splash(state.State):
         if event.type == pg.KEYDOWN:
             self.done = True
         
-    def update(self, now, keys):
+    def update(self, now, keys, scale):
         pg.mouse.set_visible(False)
         if now-self.timer > 2000:
             self.timer = now
             self.done = True
         
-    def render(self):
-        prepare.SCREEN.blit(self.bg,(0,0))
+    def render(self, surface):
+        surface.blit(self.bg,(0,0))
         
     def cleanup(self):
         pg.mixer.music.play()
