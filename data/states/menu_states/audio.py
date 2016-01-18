@@ -23,14 +23,14 @@ class Audio(menus.Menus):
             "hover_font_color"   : (0,0,0),
             'font'               : pg.font.Font(prepare.FONTS['impact'], 15)
         }
-        self.next_button = button.Button((475,150,100,25),(100,100,100), 
+        self.next_button = button.Button((603,150,100,25),(100,100,100), 
             self.music.switch_track, text='Next', **button_config
         )
         self.prev_button = button.Button((225,150,100,25),(100,100,100), 
             lambda x=-1:self.music.switch_track(x), text='Previous', **button_config
         )
         
-        self.vol_up_button = button.Button((475,200,100,25),(100,100,100), 
+        self.vol_up_button = button.Button((603,200,100,25),(100,100,100), 
             self.music_modify, text='+', **button_config
         )
         self.vol_down_button = button.Button((225,200,100,25),(100,100,100), 

@@ -7,11 +7,11 @@ class Game(state.State):
     def __init__(self):
         state.State.__init__(self)
         self.next = 'MENU'
-        self.setup_bg()
+        self.setup_bg(prepare.SCREEN_RECT)
         
-    def setup_bg(self):
+    def setup_bg(self, screen_rect):
         self.bg_orig = prepare.GFX['bg']
-        self.bg = pg.transform.smoothscale(self.bg_orig, prepare.SCREEN_RECT.size)
+        self.bg = pg.transform.smoothscale(self.bg_orig, screen_rect.size)
         
     def get_event(self, event, keys):
         if event.type == pg.KEYDOWN:
@@ -45,6 +45,9 @@ class Game(state.State):
         
     def entry(self):
         pass
+        
+    def on_resize(self, screen_size):
+        self.setup_bg(screen_size)
         
 
         
