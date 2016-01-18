@@ -68,7 +68,7 @@ class Control():
             self.change_state(now)
             delta_time = self.clock.tick(prepare.FPS)
             self.state.update(now, self.keys, self.scale)
-            self.state.render(self.render_surf)
+            self.state.render(self.screen)
             pg.display.update()
             
     def render(self):

@@ -21,9 +21,9 @@ class Menus(state.State):
     def setup_bg(self, screen_rect):
         self.bg = pg.transform.smoothscale(self.bg_orig, screen_rect.size)
         
-    def setup_title(self):
+    def setup_title(self, screen_rect=prepare.SCREEN_RECT):
         self.title, self.title_rect = self.make_text(
-            self.title_text, (75,75,75), (prepare.SCREEN_RECT.centerx, 75), 150, prepare.FONTS['3rdman'])
+            self.title_text, (75,75,75), (screen_rect.centerx, 75), 150, prepare.FONTS['3rdman'])
         
     def make_text(self,message,color,center,size, fonttype):
         font = pg.font.Font(fonttype, size)
@@ -129,4 +129,5 @@ class Menus(state.State):
         
     def on_resize(self, screen_rect):
         self.setup_bg(screen_rect)
+        self.setup_title(screen_rect)
         
