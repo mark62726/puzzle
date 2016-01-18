@@ -10,7 +10,7 @@ class State:
         self.quit = False #quit game
         self.done = False #quit state
         self.timer = 0.0
-        self.music_volume = .3
+        self.music_volume = prepare.MUSIC_VOLUME
         self.music = tools.Music(volume=self.music_volume)
         
         

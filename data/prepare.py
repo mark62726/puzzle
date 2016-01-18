@@ -41,3 +41,9 @@ FONTS = tools.load_all_fonts(os.path.join("resources", "fonts"))
 MUSIC = tools.load_all_music(os.path.join("resources", "music"))
 SFX   = tools.load_all_sfx(os.path.join("resources", "sound"))
 GFX   = tools.load_all_gfx(os.path.join("resources", "graphics"))
+
+#set starting music volume
+if ARGS['music_off']:
+    MUSIC_VOLUME = 0.0
+else:
+    MUSIC_VOLUME = .3
