@@ -13,10 +13,11 @@ class Audio(menus.Menus):
         self.pre_render_options()
         self.setup_title()
         self.from_bottom = 300
-        self.screen_rect = prepare.SCREEN_RECT
         self.setup_music_select_label(self.screen_rect)
         self.update_labels(self.screen_rect)
+        self.update_buttons()
         
+    def update_buttons(self):
         button_config = {
             "hover_color"        : (150,150,150),
             "clicked_color"      : (255,255,255),
@@ -24,32 +25,32 @@ class Audio(menus.Menus):
             "hover_font_color"   : (0,0,0),
             'font'               : pg.font.Font(prepare.FONTS['impact'], 15)
         }
-        self.next_button = button.Button((603,150,100,25),(100,100,100), 
+        self.next_button = button.Button((825,150,100,25),(100,100,100), 
             self.music.switch_track, text='Next', **button_config
         )
-        self.prev_button = button.Button((225,150,100,25),(100,100,100), 
+        self.prev_button = button.Button((475,150,100,25),(100,100,100), 
             lambda x=-1:self.music.switch_track(x), text='Previous', **button_config
         )
         
-        self.vol_up_button = button.Button((603,200,100,25),(100,100,100), 
+        self.vol_up_button = button.Button((825,225,100,25),(100,100,100), 
             self.music_modify, text='+', **button_config
         )
-        self.vol_down_button = button.Button((225,200,100,25),(100,100,100), 
+        self.vol_down_button = button.Button((475,225,100,25),(100,100,100), 
             lambda x=-1:self.music_modify(-.1), text='-', **button_config
         )
         
     def setup_music_select_label(self, screen_rect):
         self.music_select_label, self.music_select_label_rect = self.make_text(
-            'Switch Music Track', (0,0,0), (screen_rect.centerx, 162), 15, prepare.FONTS['impact'])
+            'Switch Music Track', (0,0,0), (screen_rect.centerx, 162), 25, prepare.FONTS['impact'])
         
     def update_labels(self, screen_rect):
         self.volume_select_label, self.volume_select_label_rect = self.make_text(
-            'Music Volume {}'.format(int(self.music_volume*10)), (0,0,0), (screen_rect.centerx, 212), 15, prepare.FONTS['impact'])
+            'Music Volume {}'.format(int(self.music_volume*10)), (0,0,0), (screen_rect.centerx, 237), 25, prepare.FONTS['impact'])
             
         self.music_song_label, self.music_song_label_rect = self.make_text(
             '{}'.format(
                 self.music.track_name(self.music.tracks[self.music.track])), 
-            (0,0,0), (screen_rect.centerx, 187), 15, prepare.FONTS['impact'])
+            (0,0,0), (screen_rect.centerx, 199), 25, prepare.FONTS['impact'])
     
     def music_modify(self, amount=.1):
         self.music_volume += amount
@@ -61,7 +62,11 @@ class Audio(menus.Menus):
         
     def additional_update(self):
         self.update_labels(self.screen_rect)
-        
+        self.next_button.update(self.mouse_pos)
+        self.prev_button.update(self.mouse_pos)
+        self.vol_up_button.update(self.mouse_pos)
+        self.vol_down_button.update(self.mouse_pos)
+    
     def additional_event_handler(self, event):
         self.next_button.check_event(event)
         self.prev_button.check_event(event)
@@ -77,11 +82,5 @@ class Audio(menus.Menus):
         surface.blit(self.volume_select_label, self.volume_select_label_rect)
         if self.next_button.ever_clicked or self.prev_button.ever_clicked:
             surface.blit(self.music_song_label, self.music_song_label_rect)
-            
-    def on_resize(self, screen_rect):
-        self.screen_rect = screen_rect
-        self.setup_music_select_label(screen_rect)
-        self.update_labels(screen_rect)
-        self.setup_title(screen_rect)
 
         

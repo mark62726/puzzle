@@ -7,7 +7,7 @@ class Splash(state.State):
         state.State.__init__(self)
         self.next = 'MENU'
         self.bg_orig = prepare.GFX['splash_page']
-        self.bg = pg.transform.smoothscale(self.bg_orig, prepare.SCREEN_RECT.size)
+        self.bg = pg.transform.smoothscale(self.bg_orig, self.screen_rect.size)
         
     def get_event(self, event, keys):
         if event.type == pg.KEYDOWN:

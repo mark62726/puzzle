@@ -16,7 +16,6 @@ class Control():
         self.resolutions = prepare.RESOLUTIONS
         self.set_scale()
             
-            
         self.clock = pg.time.Clock()
         self.keys = None
         self.done = False
@@ -34,7 +33,6 @@ class Control():
         self.state_name = "SPLASH"
         self.state = self.state_dict[self.state_name]
         
-    
     def event_loop(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
@@ -65,10 +63,11 @@ class Control():
                 self.done = True
             now = pg.time.get_ticks()
             self.event_loop()
+            self.render()
             self.change_state(now)
             delta_time = self.clock.tick(prepare.FPS)
             self.state.update(now, self.keys, self.scale)
-            self.state.render(self.screen)
+            self.state.render(self.render_surf)
             pg.display.update()
             
     def render(self):
@@ -98,7 +97,6 @@ class Control():
         self.screen = pg.display.set_mode(new_size, pg.RESIZABLE)
         self.screen_rect.size = new_size
         self.set_scale()
-        self.state.on_resize(self.screen_rect)
 
     def set_scale(self):
         """

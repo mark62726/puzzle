@@ -7,7 +7,7 @@ class Game(state.State):
     def __init__(self):
         state.State.__init__(self)
         self.next = 'MENU'
-        self.screen_rect = prepare.SCREEN_RECT
+        self.screen_rect = pg.Rect((0, 0), prepare.RENDER_SIZE)
         self.setup_bg(self.screen_rect)
         
     def setup_bg(self, screen_rect):
@@ -20,7 +20,7 @@ class Game(state.State):
                 self.done = True
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             for v in self.btn_dict.values():
-                v.check_click(event.pos)
+                v.check_click(self.mouse_pos)
         elif event.type == pg.MOUSEBUTTONUP and event.button == 1:
             for v in self.btn_dict.values():
                 v.click = False
@@ -47,9 +47,6 @@ class Game(state.State):
     def entry(self):
         pass
         
-    def on_resize(self, screen_rect):
-        self.setup_bg(screen_rect)
-        self.screen_rect = screen_rect
-        
+
 
         

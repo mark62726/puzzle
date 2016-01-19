@@ -9,21 +9,23 @@ class Menus(state.State):
     '''
     def __init__(self):
         state.State.__init__(self)
+        self.screen_rect = pg.Rect((0, 0), prepare.RENDER_SIZE)
         self.bg_orig = prepare.GFX['old_paper']
-        self.setup_bg(prepare.SCREEN_RECT)
+        self.setup_bg(self.screen_rect)
         self.selected_color = (235,0,0)
         self.deselected_color = (15,15,15)
         self.title_text = None
         self.from_bottom = 200
         self.spacer = 75
         self.selected_index = 0
+        self.mouse_pos = (0,0)
         
     def setup_bg(self, screen_rect):
         self.bg = pg.transform.smoothscale(self.bg_orig, screen_rect.size)
         
-    def setup_title(self, screen_rect=prepare.SCREEN_RECT):
+    def setup_title(self):
         self.title, self.title_rect = self.make_text(
-            self.title_text, (75,75,75), (screen_rect.centerx, 75), 150, prepare.FONTS['3rdman'])
+            self.title_text, (75,75,75), (self.screen_rect.centerx, 75), 150, prepare.FONTS['3rdman'])
         
     def make_text(self,message,color,center,size, fonttype):
         font = pg.font.Font(fonttype, size)
@@ -48,7 +50,7 @@ class Menus(state.State):
     def mouse_menu_click(self, event):
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             for i,opt in enumerate(self.rendered["des"]):
-                if opt[1].collidepoint(pg.mouse.get_pos()):
+                if opt[1].collidepoint(self.mouse_pos):
                     self.selected_index = i
                     self.select_option(i)
                     break
@@ -75,6 +77,7 @@ class Menus(state.State):
         pass
         
     def update(self, now, keys, scale):
+        self.mouse_pos = tools.scaled_mouse_pos(scale)
         self.additional_update()
         pg.mouse.set_visible(True)
         #self.mouse_hover_sound()
@@ -109,7 +112,7 @@ class Menus(state.State):
     def change_selected_option(self, op=0):
         '''change highlighted menu option'''
         for i,opt in enumerate(self.rendered["des"]):
-            if opt[1].collidepoint(pg.mouse.get_pos()):
+            if opt[1].collidepoint(self.mouse_pos):
                 self.selected_index = i
 
         if op:
@@ -126,8 +129,4 @@ class Menus(state.State):
         
     def entry(self):
         pass
-        
-    def on_resize(self, screen_rect):
-        self.setup_bg(screen_rect)
-        self.setup_title(screen_rect)
         

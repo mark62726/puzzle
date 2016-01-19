@@ -4,17 +4,18 @@ if __name__ == '__main__':
     pg.init()
 
 class Button(object):
-    """A fairly straight forward button class."""
     def __init__(self,rect,color,function,**kwargs):
         self.rect = pg.Rect(rect)
         self.color = color
         self.function = function
         self.clicked = False
         self.hovered = False
+        self.hover = False
         self.hover_text = None
         self.clicked_text = None
         self.process_kwargs(kwargs)
         self.render_text()
+        self.prescaled_mouse_pos = (0,0)
 
     def process_kwargs(self,kwargs):
         """Various optional customization you can change by passing kwargs."""
@@ -57,46 +58,41 @@ class Button(object):
     def check_event(self,event):
         """The button needs to be passed events from your program event loop."""
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-            self.on_click(event)
+            self.on_click()
         elif event.type == pg.MOUSEBUTTONUP and event.button == 1:
-            self.on_release(event)
+            self.on_release()
 
-    def on_click(self,event):
-        if self.rect.collidepoint(event.pos):
+    def on_click(self):
+        if self.rect.collidepoint(self.prescaled_mouse_pos):
             self.clicked = True
             self.ever_clicked = True
             if not self.call_on_release:
                 self.function()
 
-
-    def on_release(self,event):
+    def on_release(self):
         if self.clicked and self.call_on_release:
             #if user is still within button rect upon mouse release
-            if self.rect.collidepoint(pg.mouse.get_pos()):
+            if self.rect.collidepoint(self.prescaled_mouse_pos):
                 self.function()
         self.clicked = False
 
-    def check_hover(self):
-        if self.rect.collidepoint(pg.mouse.get_pos()):
-            if not self.hovered:
-                self.hovered = True
-                if self.hover_sound:
-                    self.hover_sound.play()
-        else:
-            self.hovered = False
+    def update(self, prescaled_mouse_pos):
+        self.prescaled_mouse_pos = prescaled_mouse_pos
+        self.hover = self.rect.collidepoint(prescaled_mouse_pos)
+        #self.check_hover()
 
     def render(self,surface):
         """Update needs to be called every frame in the main loop."""
         color = self.color
         text = self.text
         border = self.border_color
-        self.check_hover()
+        
         if not self.disabled:
             if self.clicked and self.clicked_color:
                 color = self.clicked_color
                 if self.clicked_font_color:
                     text = self.clicked_text
-            elif self.hovered and self.hover_color:
+            elif self.hover and self.hover_color:
                 color = self.hover_color
                 if self.hover_font_color:
                     text = self.hover_text
@@ -138,6 +134,9 @@ class Button(object):
             pg.draw.circle(image, color, getattr(corners,attribute), rad)
         image.fill(color, rect.inflate(-2*rad,0))
         image.fill(color, rect.inflate(0,-2*rad))
+        
+    def on_resize(self, screen_rect):
+        pass
 
 
 if __name__ == '__main__':

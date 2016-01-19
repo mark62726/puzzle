@@ -7,12 +7,13 @@ class State:
     Super class for all states 
     '''
     def __init__(self):
+        self.screen_rect = pg.Rect((0, 0), prepare.RENDER_SIZE)
         self.quit = False #quit game
         self.done = False #quit state
         self.timer = 0.0
         self.music_volume = prepare.MUSIC_VOLUME
         self.music = tools.Music(volume=self.music_volume)
-        
+        self.mouse_pos = (0,0)
         
         self.buttons = tools.strip_from_sheet(prepare.GFX['arrows'], (0,0), (62,62), 5,3)
         self.btn_dict = {
@@ -47,4 +48,4 @@ class State:
         }
         
     def update(self, now, keys, scale):
-        pass
+        self.mouse_pos = tools.scaled_mouse_pos(scale)

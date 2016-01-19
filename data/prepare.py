@@ -39,7 +39,7 @@ else:
     pg.event.clear(pg.VIDEORESIZE)
 
 #Default screen_rect for states constructors
-SCREEN_RECT = SCREEN.get_rect()
+#SCREEN_RECT = SCREEN.get_rect()
     
 FONTS = tools.load_all_fonts(os.path.join("resources", "fonts"))
 MUSIC = tools.load_all_music(os.path.join("resources", "music"))
