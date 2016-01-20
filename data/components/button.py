@@ -7,17 +7,24 @@ class ImageDrag(object):
         self.rect = self.image.get_rect(topleft=pos)
         self.click = False
         self.scale = None
+        self.true_pos = list(pos)
 
     def check_click(self, pos):
-        if self.rect.collidepoint(pos):
+        scaled_pos = pos[0]*self.scale[0], pos[1]*self.scale[1]
+        if self.rect.collidepoint(scaled_pos):
             self.click = True
-            tools.scaled_mouse_rel(self.scale, pos)
+            pg.mouse.get_rel()
 
     def update(self, screen_rect, pos, scale):
         self.scale = scale
         if self.click:
-            self.rect.move_ip(tools.scaled_mouse_rel(scale, pos))
-            self.rect.clamp_ip(screen_rect)
+            rel = pg.mouse.get_rel()
+            self.true_pos[0] += rel[0]*scale[0]
+            self.true_pos[1] += rel[1]*scale[1]
+            self.rect.center = self.true_pos
+            if not screen_rect.contains(self.rect):
+                self.rect.clamp_ip(screen_rect)
+                self.true_pos = list(self.rect.center)
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
