@@ -10,6 +10,17 @@ import argparse
 import traceback
 from time import gmtime, strftime
 import platform
+
+class ScaledMouseHandler:
+    position = (0,0)
+    @staticmethod
+    def scaled_rel(new_pos):
+        old_pos = ScaledMouseHandler.position
+        diffX = new_pos[0]-old_pos[0]
+        diffY = new_pos[1]-old_pos[1]
+        ScaledMouseHandler.position = new_pos
+        return (diffX, diffY)
+        
         
 class DB:
     dirname = 'save'
@@ -302,4 +313,8 @@ def scaled_mouse_pos(scale, pos=None):
     passed and returns pos adjusted for screen size if pos is passed.
     """
     x,y = pg.mouse.get_pos() if pos is None else pos
+    return (int(x*scale[0]), int(y*scale[1]))
+    
+def scaled_mouse_rel(scale, pos=None):
+    x,y = pg.mouse.get_rel() if pos is None else pos
     return (int(x*scale[0]), int(y*scale[1]))

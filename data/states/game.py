@@ -7,7 +7,7 @@ class Game(state.State):
     def __init__(self):
         state.State.__init__(self)
         self.next = 'MENU'
-        self.screen_rect = pg.Rect((0, 0), prepare.RENDER_SIZE)
+        #self.screen_rect = pg.Rect((0, 0), prepare.RENDER_SIZE)
         self.setup_bg(self.screen_rect)
         
     def setup_bg(self, screen_rect):
@@ -32,7 +32,7 @@ class Game(state.State):
             self.timer = now
             
         for v in self.btn_dict.values():
-            v.update(self.screen_rect)
+            v.update(self.screen_rect, self.mouse_pos, scale)
         
     def render(self, surface):
         surface.blit(self.bg,(0,0))

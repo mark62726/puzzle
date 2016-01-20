@@ -1,25 +1,26 @@
 import pygame as pg
-from .. import prepare
+from .. import prepare, tools
 
 class ImageDrag(object):
     def __init__(self, image, pos=(0,0)):
         self.image = image
         self.rect = self.image.get_rect(topleft=pos)
         self.click = False
+        self.scale = None
 
     def check_click(self, pos):
         if self.rect.collidepoint(pos):
             self.click = True
-            pg.mouse.get_rel()
+            tools.scaled_mouse_rel(self.scale, pos)
 
-    def update(self, screen_rect):
+    def update(self, screen_rect, pos, scale):
+        self.scale = scale
         if self.click:
-            self.rect.move_ip(pg.mouse.get_rel())
+            self.rect.move_ip(tools.scaled_mouse_rel(scale, pos))
             self.rect.clamp_ip(screen_rect)
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
-
 
 class FontDrag(object):
     SIZE = (150, 150)
