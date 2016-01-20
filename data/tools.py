@@ -315,6 +315,12 @@ def scaled_mouse_pos(scale, pos=None):
     x,y = pg.mouse.get_pos() if pos is None else pos
     return (int(x*scale[0]), int(y*scale[1]))
     
-def scaled_mouse_rel(scale, pos=None):
-    x,y = pg.mouse.get_rel() if pos is None else pos
-    return (int(x*scale[0]), int(y*scale[1]))
+def scaled_mouse_rel(true_pos, scale):
+    rel = pg.mouse.get_rel()
+    true_pos[0] += rel[0]*scale[0]
+    true_pos[1] += rel[1]*scale[1]
+    return true_pos
+    
+def scaled_pos(pos, scale):
+    return pos[0]*scale[0], pos[1]*scale[1]
+            

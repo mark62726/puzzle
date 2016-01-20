@@ -20,7 +20,7 @@ class Game(state.State):
                 self.done = True
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             for v in self.btn_dict.values():
-                v.check_click(self.mouse_pos)
+                v.check_click(event.pos)
         elif event.type == pg.MOUSEBUTTONUP and event.button == 1:
             for v in self.btn_dict.values():
                 v.click = False
