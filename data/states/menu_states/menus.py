@@ -1,6 +1,5 @@
 import pygame as pg
 from ... import prepare, tools
-from ...components import button
 from .. import state
 
 class Menus(state.State):

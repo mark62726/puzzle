@@ -2,6 +2,7 @@
 import pygame as pg
 from . import state
 from .. import prepare, tools
+from ..components import image_drop
 
 class Game(state.State):
     def __init__(self):
@@ -9,6 +10,8 @@ class Game(state.State):
         self.next = 'MENU'
         #self.screen_rect = pg.Rect((0, 0), prepare.RENDER_SIZE)
         self.setup_bg(self.screen_rect)
+        
+        self.drop = image_drop.ImageDrop(self.btn_dict['square'].rect.size, self.screen_rect.center)
         
     def setup_bg(self, screen_rect):
         self.bg_orig = prepare.GFX['bg']
@@ -37,8 +40,10 @@ class Game(state.State):
     def render(self, surface):
         surface.blit(self.bg,(0,0))
         
+        self.drop.render(surface)
         for v in self.btn_dict.values():
             surface.blit(v.image, v.rect)
+        
         
         
     def cleanup(self):
