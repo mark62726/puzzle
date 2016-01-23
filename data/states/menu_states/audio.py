@@ -13,9 +13,10 @@ class Audio(menus.Menus):
         self.pre_render_options()
         self.setup_title()
         self.from_bottom = 300
+        self.update_buttons()
         self.setup_music_select_label(self.screen_rect)
         self.update_labels(self.screen_rect)
-        self.update_buttons()
+        
         
     def update_buttons(self):
         button_config = {
@@ -44,12 +45,22 @@ class Audio(menus.Menus):
             'Switch Music Track', (0,0,0), (screen_rect.centerx, 162), 25, prepare.FONTS['impact'])
         
     def update_labels(self, screen_rect):
+        if self.vol_up_button.ever_clicked or self.vol_down_button.ever_clicked:
+            volume_num = int(self.music_volume*10)
+        else:
+            volume_num = ''
         self.volume_select_label, self.volume_select_label_rect = self.make_text(
-            'Music Volume {}'.format(int(self.music_volume*10)), (0,0,0), (screen_rect.centerx, 237), 25, prepare.FONTS['impact'])
-            
+            'Music Volume {}'.format(
+                volume_num), 
+            (0,0,0), (screen_rect.centerx, 237), 25, prepare.FONTS['impact'])
+        
+        if self.next_button.ever_clicked or self.prev_button.ever_clicked:
+            song_name = self.music.tracks[self.music.track]
+        else:
+            song_name = ''
         self.music_song_label, self.music_song_label_rect = self.make_text(
             '{}'.format(
-                self.music.track_name(self.music.tracks[self.music.track])), 
+                self.music.track_name(song_name)), 
             (0,0,0), (screen_rect.centerx, 199), 25, prepare.FONTS['impact'])
     
     def music_modify(self, amount=.1):
@@ -80,7 +91,6 @@ class Audio(menus.Menus):
         self.vol_down_button.render(surface)
         surface.blit(self.music_select_label, self.music_select_label_rect)
         surface.blit(self.volume_select_label, self.volume_select_label_rect)
-        if self.next_button.ever_clicked or self.prev_button.ever_clicked:
-            surface.blit(self.music_song_label, self.music_song_label_rect)
+        surface.blit(self.music_song_label, self.music_song_label_rect)
 
         

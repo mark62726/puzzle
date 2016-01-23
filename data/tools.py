@@ -162,6 +162,7 @@ class Music:
             pg.mixer.music.play()
             
     def track_name(self, track_path):
+        
         return os.path.splitext(os.path.split(track_path)[1])[0].replace('_', ' ').title()
 
     
