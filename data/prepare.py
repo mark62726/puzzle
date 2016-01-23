@@ -36,9 +36,6 @@ if ARGS['fullscreen']:
 else:
     SCREEN = pg.display.set_mode(START_SIZE, pg.RESIZABLE)
     pg.event.clear(pg.VIDEORESIZE)
-
-#Default screen_rect for states constructors
-#SCREEN_RECT = SCREEN.get_rect()
     
 FONTS = tools.load_all_fonts(os.path.join("resources", "fonts"))
 MUSIC = tools.load_all_music(os.path.join("resources", "music"))
@@ -50,3 +47,12 @@ if ARGS['music_off']:
     MUSIC_VOLUME = 0.0
 else:
     MUSIC_VOLUME = .3
+    
+MUSIC = tools.Music(volume=MUSIC_VOLUME)
+
+#jump to specific state
+if ARGS['state']:
+    STARTING_STATE = ARGS['state'][0].upper()
+    pg.mixer.music.play()
+else:
+    STARTING_STATE = 'SPLASH'

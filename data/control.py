@@ -30,7 +30,7 @@ class Control():
             'DISABLED'  :None
         }
 
-        self.state_name = "SPLASH"
+        self.state_name = prepare.STARTING_STATE
         self.state = self.state_dict[self.state_name]
         
     def event_loop(self):

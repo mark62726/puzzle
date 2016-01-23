@@ -123,6 +123,8 @@ def get_cli_args(caption, win_pos, start_size):
         help='start with no music')
     parser.add_argument('-d', '--debug', action='store_true',
         help='run game in debug mode')
+    parser.add_argument('-s' , '--state', nargs=1, metavar=('STATE'),
+        help='start in specified state')
 
     args = vars(parser.parse_args())
     #check each condition

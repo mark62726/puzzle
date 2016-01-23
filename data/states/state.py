@@ -12,7 +12,7 @@ class State:
         self.done = False #quit state
         self.timer = 0.0
         self.music_volume = prepare.MUSIC_VOLUME
-        self.music = tools.Music(volume=self.music_volume)
+        self.music = prepare.MUSIC
         self.mouse_pos = (0,0)
         
         self.buttons = tools.strip_from_sheet(prepare.GFX['arrows'], (0,0), (62,62), 5,3)
