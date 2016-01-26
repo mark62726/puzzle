@@ -11,6 +11,3 @@ class Menu(menus.Menus):
         self.title_text = 'Puzzle'
         self.pre_render_options()
         self.setup_title()
-    
-
-        

@@ -11,7 +11,25 @@ class Game(state.State):
         #self.screen_rect = pg.Rect((0, 0), prepare.RENDER_SIZE)
         self.setup_bg(self.screen_rect)
         
-        self.drop = image_drop.ImageDrop(self.btn_dict['square'].rect.size, self.screen_rect.center)
+        self.drag_rect = self.btn_dict['square'].rect #arbitrary single object for sizing
+        self.droppers = [
+            image_drop.ImageDrop(self.drag_rect.size, self.screen_rect.center),
+            image_drop.ImageDrop(self.drag_rect.size, tools.from_center(self.screen_rect, (400,0))),
+            image_drop.ImageDrop(self.drag_rect.size, tools.from_center(self.screen_rect, (-400,0)))
+        ]
+    
+        self.fill_queue()
+        #self.queue_layout()
+        
+    def fill_queue(self):
+        self.queue = []
+        for v in self.btn_dict.values():
+            self.queue.append(v)
+            
+    def queue_layout(self):
+        self.queue_spacer = 100
+        for i, obj in enumerate(self.queue):
+            obj.rect.x = (i*obj.rect.width)+self.queue_spacer
         
     def setup_bg(self, screen_rect):
         self.bg_orig = prepare.GFX['bg']
@@ -21,30 +39,31 @@ class Game(state.State):
         if event.type == pg.KEYDOWN:
             if event.key == pg.K_ESCAPE:
                 self.done = True
-        if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-            for v in self.btn_dict.values():
-                v.check_click(event.pos)
-        elif event.type == pg.MOUSEBUTTONUP and event.button == 1:
-            for v in self.btn_dict.values():
-                v.click = False
+        for v in self.queue:
+            v.get_event(event)
         self.music.get_event(event)
+        
+        for obj in self.queue:
+            for drop in self.droppers:
+                drop.get_event(event, obj)
         
     def update(self, now, keys, scale):
         pg.mouse.set_visible(True)
         if now-self.timer > 1000:
             self.timer = now
-            
-        for v in self.btn_dict.values():
-            v.update(self.screen_rect, self.mouse_pos, scale)
+        
+        for drop in self.droppers:
+            drop.update()
+        for drag in self.queue:
+            drag.update(self.screen_rect, self.mouse_pos, scale)
         
     def render(self, surface):
         surface.blit(self.bg,(0,0))
         
-        self.drop.render(surface)
-        for v in self.btn_dict.values():
+        for drop in self.droppers:
+            drop.render(surface)
+        for v in reversed(self.queue):
             surface.blit(v.image, v.rect)
-        
-        
         
     def cleanup(self):
         pass

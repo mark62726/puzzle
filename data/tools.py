@@ -326,4 +326,19 @@ def scaled_mouse_rel(true_pos, scale):
     
 def scaled_pos(pos, scale):
     return pos[0]*scale[0], pos[1]*scale[1]
-            
+
+def from_center(obj_rect, new_pos=(0,0)):
+    '''
+    return tuple of new position from obj.centerx obj.centery, 
+    where 0 indicates use obj_rect.center[x/y]
+    EXAMPLE:
+    (obj.centerx + 400, obj.centery)        ->  from_center(obj, (400,0))
+    (obj.centerx - 400, obj.centery + 100)  ->  from_center(obj, (-400,100))
+    '''
+    x = obj_rect.centerx
+    y = obj_rect.centery
+    if new_pos[0]:
+        x += new_pos[0]
+    if new_pos[1]:
+        y += new_pos[1]
+    return (x,y)

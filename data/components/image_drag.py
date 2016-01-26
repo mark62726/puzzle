@@ -2,12 +2,18 @@ import pygame as pg
 from .. import prepare, tools
 
 class ImageDrag(object):
-    def __init__(self, image, pos=(0,0)):
+    def __init__(self, image, pos=(10,10)):
         self.image = image
         self.rect = self.image.get_rect(topleft=pos)
         self.click = False
         self.scale = None
         self.true_pos = list(self.rect.center)
+        
+    def get_event(self, event):
+        if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
+            self.check_click(event.pos)
+        elif event.type == pg.MOUSEBUTTONUP and event.button == 1:
+            self.click = False
 
     def check_click(self, pos):
         scaled_pos = tools.scaled_pos(pos, self.scale)
