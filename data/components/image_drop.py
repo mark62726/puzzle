@@ -28,7 +28,7 @@ class ImageDrop:
                 obj.true_pos = list(obj.rect.center) #update object to new coords
                 self.empty = False
             else:
-                pass#self.empty = True
+                self.empty = True
         
     def update(self):
         self.draw_rect()

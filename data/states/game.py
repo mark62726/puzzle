@@ -20,11 +20,18 @@ class Game(state.State):
     
         self.fill_queue()
         #self.queue_layout()
+        self.controlled_drag = None
         
     def fill_queue(self):
         self.queue = []
-        for v in self.btn_dict.values():
+        #for v in self.btn_dict.values():
+        #    self.queue.append(v)
+        
+        #temp to limit queue for testing
+        for i, v in enumerate(self.btn_dict.values()):
             self.queue.append(v)
+            if i == 2:
+                break
             
     def queue_layout(self):
         self.queue_spacer = 100
@@ -43,19 +50,24 @@ class Game(state.State):
             v.get_event(event)
         self.music.get_event(event)
         
-        for obj in self.queue:
+        #for obj in self.queue:
+        #    for drop in self.droppers:
+        #        drop.get_event(event, obj)
+                
+        if self.controlled_drag:
             for drop in self.droppers:
-                drop.get_event(event, obj)
+                drop.get_event(event, self.controlled_drag)
         
     def update(self, now, keys, scale):
         pg.mouse.set_visible(True)
         if now-self.timer > 1000:
             self.timer = now
-        
         for drop in self.droppers:
             drop.update()
         for drag in self.queue:
             drag.update(self.screen_rect, self.mouse_pos, scale)
+            if drag.click:
+                self.controlled_drag = drag
         
     def render(self, surface):
         surface.blit(self.bg,(0,0))
