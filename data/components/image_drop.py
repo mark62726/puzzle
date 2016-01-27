@@ -26,6 +26,7 @@ class ImageDrop:
             col = self.rect.colliderect(obj.rect)
             if col and not self.contains:
                 obj.rect.topleft = self.rect_orig.topleft #position to centers, messed up from inflating
+                obj.true_pos = list(obj.rect.center) #update object to new coords
                 self.contains = True
                 #self.color = self.color_full
             else:
