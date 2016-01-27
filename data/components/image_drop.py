@@ -16,25 +16,26 @@ class ImageDrop:
         self.draw_rect()
         self.rect_orig = self.image.get_rect(center=pos)
         self.rect = self.rect_orig.inflate((self.border,self.border))
-        self.contains = None
+        self.empty = True
         
     def draw_rect(self):
         pg.draw.rect(self.image, self.color, pg.Rect((0,0),self.size), self.border)
         
     def get_event(self, event, obj):
         if event.type == pg.MOUSEBUTTONUP and event.button == 1:
-            col = self.rect.colliderect(obj.rect)
-            if col and not self.contains:
+            if self.rect.colliderect(obj.rect):
                 obj.rect.topleft = self.rect_orig.topleft #position to centers, messed up from inflating
                 obj.true_pos = list(obj.rect.center) #update object to new coords
-                self.contains = True
-                #self.color = self.color_full
+                self.empty = False
             else:
-                self.contains = False
-                #self.color = self.color_empty
+                pass#self.empty = True
         
     def update(self):
         self.draw_rect()
+        if not self.empty:
+            self.color = self.color_full
+        else:
+            self.color = self.color_empty
         
     def render(self, surf):
         surf.blit(self.image, self.rect)
