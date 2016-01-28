@@ -26,15 +26,21 @@ class ImageDrop:
         if event.type == pg.MOUSEBUTTONUP and event.button == 1:
             if obj:
                 if self.rect.colliderect(obj.rect):
-                    obj.rect.topleft = self.rect_orig.topleft #position to centers, messed up from inflating
-                    obj.true_pos = list(obj.rect.center) #update object to new coords
-                    self.empty = False
-                    self.occupant = obj
+                    #obj.rect.topleft = self.rect_orig.topleft 
+                    self.set_occupant(obj) #position to centers, messed up from inflating
+                    #obj.update_true_pos() #update object to new coords
+                    #self.empty = False
+                    #self.occupant = obj
         elif event.type == pg.MOUSEMOTION:
             if self.occupant and self.rect:
                 if not self.rect.colliderect(self.occupant.rect):
                     self.empty = True
-        
+                    
+    def set_occupant(self, obj):
+        obj.rect.topleft = self.rect_orig.topleft
+        obj.update_true_pos()
+        self.empty = False
+        self.occupant = obj
         
     def update(self):
         self.draw_rect()

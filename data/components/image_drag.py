@@ -27,7 +27,10 @@ class ImageDrag(object):
             self.rect.center = tools.scaled_mouse_rel(self.true_pos, scale)
             if not screen_rect.contains(self.rect):
                 self.rect.clamp_ip(screen_rect)
-                self.true_pos = list(self.rect.center)
+                self.update_true_pos()
+                
+    def update_true_pos(self):
+        self.true_pos = list(self.rect.center)
 
-    def draw(self, surface):
+    def render(self, surface):
         surface.blit(self.image, self.rect)
