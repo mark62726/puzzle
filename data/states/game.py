@@ -34,7 +34,7 @@ class Game(state.State):
                 break
             
     def queue_layout(self):
-        self.queue_spacer = 100
+        self.queue_spacer = 10
         for i, obj in enumerate(self.queue):
             obj.rect.x = (i*obj.rect.width)+self.queue_spacer
         
@@ -54,9 +54,9 @@ class Game(state.State):
         #    for drop in self.droppers:
         #        drop.get_event(event, obj)
                 
-        if self.controlled_drag:
-            for drop in self.droppers:
-                drop.get_event(event, self.controlled_drag)
+        #if self.controlled_drag:
+        for drop in self.droppers:
+            drop.get_event(event, self.controlled_drag)
         
     def update(self, now, keys, scale):
         pg.mouse.set_visible(True)
