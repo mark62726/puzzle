@@ -19,24 +19,19 @@ class Game(state.State):
         ]
     
         self.fill_queue()
-        #self.queue_layout()
+        self.queue_layout()
         self.controlled_drag = None
         
     def fill_queue(self):
         self.queue = []
-        #for v in self.btn_dict.values():
-        #    self.queue.append(v)
-        
-        #temp to limit queue for testing
-        for i, v in enumerate(self.btn_dict.values()):
+        for v in self.btn_dict.values():
             self.queue.append(v)
-            if i == 2:
-                break
             
     def queue_layout(self):
         self.queue_spacer = 10
         for i, obj in enumerate(self.queue):
             obj.rect.x = (i*obj.rect.width)+self.queue_spacer
+            obj.true_pos = list(obj.rect.center)
         
     def setup_bg(self, screen_rect):
         self.bg_orig = prepare.GFX['bg']
@@ -49,12 +44,6 @@ class Game(state.State):
         for v in self.queue:
             v.get_event(event)
         self.music.get_event(event)
-        
-        #for obj in self.queue:
-        #    for drop in self.droppers:
-        #        drop.get_event(event, obj)
-                
-        #if self.controlled_drag:
         for drop in self.droppers:
             drop.get_event(event, self.controlled_drag)
         
