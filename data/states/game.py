@@ -30,7 +30,7 @@ class Game(state.State):
     def queue_layout(self):
         self.queue_spacer = 10
         for i, obj in enumerate(self.queue):
-            obj.rect.x = (i*obj.rect.width)+self.queue_spacer
+            obj.rect.x = i*(obj.rect.width+self.queue_spacer)
             obj.true_pos = list(obj.rect.center)
         
     def setup_bg(self, screen_rect):
