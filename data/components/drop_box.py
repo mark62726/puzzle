@@ -1,7 +1,7 @@
 import pygame as pg
 from .. import prepare, tools
 
-class ImageDrop:
+class DropBox:
     def __init__(self, size, pos):
         self.color_full = (255,0,0)
         self.color_empty = (255,255,255)

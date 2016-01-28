@@ -2,7 +2,6 @@
 import pygame as pg
 from . import state
 from .. import prepare, tools
-from ..components import image_drop
 
 class Game(state.State):
     '''

@@ -1,35 +1,45 @@
 import pygame as pg
 from .. import prepare, tools
-from ..components import image_drop
+from ..components import drop_box
 from ..states import game
 
 class Level1(game.Game):
     def __init__(self):
         game.Game.__init__(self)
-        self.droppers = [
-            image_drop.ImageDrop(self.tile_rect.size, tools.from_center(self.screen_rect, (-400,0)))
+        self.drop_boxes = [
+            drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (-500,0))),
+            drop_box.DropBox(self.tile_rect.size, self.screen_rect.center)
         ]
 
-        self.fill_tile_queue()
+        self.fill_tile_queue_order()
         self.tile_queue_layout()
         self.controlled_drag = None
         self.fill_drop_box_layout()
+        self.control_flow_order
         
-    def fill_tile_queue(self):
+    def control_flow_order(self):
+        '''order of control flow to complete level'''
+        self.control_flow = []
+        #self.control_flow.append()
+        
+    def fill_tile_queue_order(self):
+        '''file tile queue to specific level order '''
         self.tile_queue = []
         self.tile_queue.append(self.btn_dict['down_arrow'])
         self.tile_queue.append(self.btn_dict['right_arrow'])
             
     def tile_queue_layout(self):
+        '''starting layout of unselected tiles from the tile queue'''
         self.tile_queue_spacer = 10
         for i, obj in enumerate(self.tile_queue):
             obj.rect.x = i*(obj.rect.width+self.tile_queue_spacer)
             obj.true_pos = list(obj.rect.center)
             
     def fill_drop_box_layout(self):
+        '''drop boxes that have tiles in them from start'''
         self.drop_box_queue = []
         self.drop_box_queue.append(self.btn_dict['turnaround_arrow'])
-        self.droppers[0].set_occupant(self.drop_box_queue[0])
+        self.drop_boxes[0].set_occupant(self.drop_box_queue[0])
         
     def additional_get_event(self, event, keys):
         if event.type == pg.KEYDOWN:
@@ -43,14 +53,14 @@ class Level1(game.Game):
             v.get_event(event)
         for tile in self.drop_box_queue:
             tile.get_event(event)
-        for drop in self.droppers:
-            drop.get_event(event, self.controlled_drag)
+        for box in self.drop_boxes:
+            box.get_event(event, self.controlled_drag)
         
     def additional_update(self, now, keys, scale):
         if now-self.timer > 1000:
             self.timer = now
-        for drop in self.droppers:
-            drop.update()
+        for box in self.drop_boxes:
+            box.update()
         for drag in self.tile_queue:
             drag.update(self.screen_rect, self.mouse_pos, scale)
             if drag.click:
@@ -61,8 +71,8 @@ class Level1(game.Game):
                 self.controlled_drag = tile
         
     def additional_render(self, surface):
-        for drop in self.droppers:
-            drop.render(surface)
+        for box in self.drop_boxes:
+            box.render(surface)
         for v in reversed(self.tile_queue):
             v.render(surface)
         for tile in self.drop_box_queue:

@@ -1,7 +1,7 @@
 import pygame as pg
 from .. import prepare, tools
 
-class ImageDrag(object):
+class Tile(object):
     def __init__(self, image, pos=(0,0)):
         self.image = image
         self.rect = self.image.get_rect(topleft=pos)
