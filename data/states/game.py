@@ -13,9 +13,6 @@ class Game(state.State):
         self.setup_bg(self.screen_rect)
         self.tile_rect = self.btn_dict['square'].rect #arbitrary single object for sizing
         self.setup_control_arrows()
-        #self.text, self.text_rect = 
-        self.setup_start_text()
-        self.setup_end_text((0,0))
         self.control_paused = None
         
     def get_level_num(self):
@@ -24,18 +21,10 @@ class Game(state.State):
     def setup_start_text(self):
         self.start_text, self.start_text_rect = self.make_text(
             'Start({})'.format(self.get_level_num()), (245,245,245), (300,200), 50, prepare.FONTS['hackers'])
-            
+
     def setup_end_text(self, pos):
         self.end_text, self.end_text_rect = self.make_text(
             'return 0;', (245,245,245), pos, 50, prepare.FONTS['hackers'])
-        
-    def setup_control_arrow(self):
-        self.control_arrow_orig = prepare.GFX['green_arrow']
-        self.control_arrow_paused_orig = self.control_arrow_orig.copy()
-        self.control_arrow_paused = pg.transform.smoothscale(self.control_arrow_paused_orig, (75,50))
-        tools.color_surface(self.control_arrow_paused, 245,0,0)
-        self.control_arrow = pg.transform.smoothscale(self.control_arrow_orig, (175,150))
-        self.control_arrow_rect = self.control_arrow.get_rect()
         
     def setup_control_arrows(self):
         sheet = prepare.GFX['colored_arrows']
@@ -45,8 +34,6 @@ class Game(state.State):
         self.control_arrow = pg.transform.smoothscale(arrows[0], (75,100))
         self.control_arrow = pg.transform.rotate(self.control_arrow, 270)
         self.control_arrow_rect = self.control_arrow.get_rect()
-        
-        
 
     def setup_bg(self, screen_rect):
         self.bg_orig = prepare.GFX['bg']

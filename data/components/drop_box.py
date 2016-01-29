@@ -26,11 +26,7 @@ class DropBox:
         if event.type == pg.MOUSEBUTTONUP and event.button == 1:
             if obj:
                 if self.rect.colliderect(obj.rect):
-                    #obj.rect.topleft = self.rect_orig.topleft 
-                    self.set_occupant(obj) #position to centers, messed up from inflating
-                    #obj.update_true_pos() #update object to new coords
-                    #self.empty = False
-                    #self.occupant = obj
+                    self.set_occupant(obj)
         elif event.type == pg.MOUSEMOTION:
             if self.occupant and self.rect:
                 if not self.rect.colliderect(self.occupant.rect):

@@ -12,14 +12,15 @@ class Level1(game.Game):
             #drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (-400,225))),
         ]
         self.setup_text_flow()
+        self.setup_start_text() #update text to class name
+        self.setup_end_text(pos=(300,650))
         self.fill_tile_queue_order()
         self.tile_queue_layout()
         self.controlled_drag = None
         self.fill_drop_box_layout()
         self.control_flow_order()
         self.control_flow_index = 0
-        self.setup_start_text() #update text to class name
-        self.setup_end_text(pos=(300,650))
+        
         self.control_pause = False
         
     def setup_text_flow(self):
@@ -35,7 +36,7 @@ class Level1(game.Game):
             self.text_flow[0][1],
             self.drop_boxes[0].rect,
         #   self.drop_boxes[1].rect,
-        #    self.end_text_rect,
+            self.end_text_rect,
         ]
         
     def fill_tile_queue_order(self):
@@ -90,13 +91,12 @@ class Level1(game.Game):
                 if self.control_flow_index > len(self.control_flow)-1:
                     self.control_flow_index = 0
                 
-            self.control_arrow_rect.y = self.control_flow[self.control_flow_index].y
+            self.control_arrow_rect.centery = self.control_flow[self.control_flow_index].centery
         else:
             self.control_paused = True
         
     def additional_update(self, now, keys, scale):
-        if now > 1000:
-            self.update_control_arrow(now)
+        self.update_control_arrow(now)
         for box in self.drop_boxes:
             box.update()
         for drag in self.tile_queue:
