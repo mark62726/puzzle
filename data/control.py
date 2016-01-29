@@ -2,7 +2,7 @@
 import os
 import pygame as pg
 from . import prepare
-import setup_dict
+from . import setup_dict
 
 
 
