@@ -68,20 +68,24 @@ class Level1(game.Game):
         for box in self.drop_boxes:
             box.get_event(event, self.controlled_drag)
             
+    def all_boxes_full(self):
+        for box in self.drop_boxes:
+            if not box.empty:
+                return True
+            
     def update_control_arrow(self, now):
         '''pause/start control flow, change pause/start arrow color, and move arrow'''
-        for box in self.drop_boxes:
-            if not box.empty: 
-                #all boxes contain a tile
-                self.control_paused = False
-                if now-self.timer > 1000:
-                    self.timer = now
-                    self.control_flow_index += 1
-                    if self.control_flow_index > len(self.control_flow)-1:
-                        self.control_flow_index = 0
-                self.control_arrow_rect.y = self.control_flow[self.control_flow_index].y
-            else:
-                self.control_paused = True
+        if self.all_boxes_full(): 
+            self.control_paused = False
+            if now-self.timer > 1000:
+                self.timer = now
+                self.control_flow_index += 1
+                if self.control_flow_index > len(self.control_flow)-1:
+                    self.control_flow_index = 0
+            self.control_arrow_rect.y = self.control_flow[self.control_flow_index].y
+        else:
+            self.control_paused = True
+            self.control_flow_index = 0
         
     def additional_update(self, now, keys, scale):
         self.update_control_arrow(now)
