@@ -24,24 +24,25 @@ class Level1(game.Game):
         
     def setup_text_flow(self):
         '''setup arbitrary texts for control flow'''
-        self.text_flow = []
-        self.text_flow.append(
+        self.text_flow = [
             self.make_text('var = NULL;', (245,245,245), (300,350), 50, prepare.FONTS['impact'])
-        )
+        ]
         
     def control_flow_order(self):
         '''order of control flow to complete level'''
-        self.control_flow = []
-        self.control_flow.append(self.start_text_rect)
-        self.control_flow.append(self.text_flow[0][1])
-        self.control_flow.append(self.drop_boxes[0].rect)
-        #self.control_flow.append(self.drop_boxes[1].rect)
-        #self.control_flow.append(self.end_text_rect)
+        self.control_flow = [
+            self.start_text_rect,
+            self.text_flow[0][1],
+            self.drop_boxes[0].rect,
+        #   self.drop_boxes[1].rect,
+        #    self.end_text_rect,
+        ]
         
     def fill_tile_queue_order(self):
         '''fill tile queue to specific level order '''
-        self.tile_queue = []
-        self.tile_queue.append(self.btn_dict['down_arrow'])
+        self.tile_queue = [
+            self.btn_dict['down_arrow'],
+        ]
             
     def tile_queue_layout(self):
         '''starting layout of unselected tiles from the tile queue'''
@@ -52,8 +53,9 @@ class Level1(game.Game):
             
     def fill_drop_box_layout(self):
         '''drop boxes that have tiles in them from start'''
-        self.drop_box_queue = []
-        self.drop_box_queue.append(self.btn_dict['turnaround_arrow'])
+        self.drop_box_queue = [
+            self.btn_dict['turnaround_arrow']
+        ]
         self.drop_boxes[0].set_occupant(self.drop_box_queue[0])
         
     def additional_get_event(self, event, keys):

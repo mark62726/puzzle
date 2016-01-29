@@ -17,7 +17,7 @@ class Credits(menus.Menus):
         self.credit = {
             'Developers'    :['metulburr'],
             'Artists'       :[],
-            'Assets'        :['bensound.com'],
+            'Assets'        :['bensound.com', 'edrawsoft.com', 'fontsy.com', 'luis-mexican-deli.com', 'cliparts.co'],
             'Software'      :['Python', 'Pygame', 'Numpy'],
         }
         self.make_credit_surf()
