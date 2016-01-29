@@ -41,8 +41,6 @@ class Game(state.State):
         self.control_arrow = pg.transform.smoothscale(arrows[0], (75,100))
         self.control_arrow = pg.transform.rotate(self.control_arrow, 270)
         self.control_arrow_rect = self.control_arrow.get_rect()
-        self.control_arrow_col = self.control_arrow_rect.copy()
-        self.control_arrow_col.width = 5000
 
     def setup_bg(self, screen_rect):
         self.bg_orig = prepare.GFX['bg']
@@ -65,7 +63,6 @@ class Game(state.State):
             tile.get_event(event)
         for box in self.drop_boxes:
             box.get_event(event, self.controlled_drag)
-        
         
     def additional_update(self, now, keys, scale):
         '''subclass level updates'''

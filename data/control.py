@@ -1,10 +1,9 @@
 
 import os
 import pygame as pg
-from .states.menu_states import menu, options, audio, credits
-from .states import splash, game
-from .levels import level1, level2
 from . import prepare
+import setup_dict
+
 
 
 class Control():
@@ -20,19 +19,7 @@ class Control():
         self.clock = pg.time.Clock()
         self.keys = None
         self.done = False
-        self.state_dict = {
-            "MENU"      : menu.Menu(),
-            "SPLASH"    : splash.Splash(),
-            'GAME'      : game.Game(),
-            'OPTIONS'   : options.Options(),
-            'AUDIO'     : audio.Audio(),
-            'AUDIO'     : audio.Audio(),
-            'CREDITS'   : credits.Credits(),
-            'LEVEL1'    : level1.Level1(),
-            'LEVEL2'    : level2.Level2(),
-            'DISABLED'  :None
-        }
-
+        self.state_dict = setup_dict.DICT
         self.state_name = prepare.STARTING_STATE
         self.state = self.state_dict[self.state_name]
         
