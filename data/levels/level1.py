@@ -8,9 +8,9 @@ class Level1(game.Game):
         game.Game.__init__(self)
         #self.level_name = 'Level1'
         self.drop_boxes = [
-            drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (-400,-200))),
+            drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (-400,-25))),
         ]
-
+        self.setup_text_flow()
         self.fill_tile_queue_order()
         self.tile_queue_layout()
         self.controlled_drag = None
@@ -18,20 +18,27 @@ class Level1(game.Game):
         self.control_flow_order()
         self.control_flow_index = 0
         self.setup_start_text() #update text to class name
-        self.setup_end_text(pos=(300,450))
+        self.setup_end_text(pos=(300,650))
         self.control_pause = False
+        
+    def setup_text_flow(self):
+        '''setup arbitrary texts for control flow'''
+        self.text_flow = []
+        self.text_flow.append(
+            self.make_text('var = NULL;', (245,245,245), (300,350), 50, prepare.FONTS['hackers'])
+        )
         
     def control_flow_order(self):
         '''order of control flow to complete level'''
         self.control_flow = []
         self.control_flow.append(self.start_text_rect)
+        self.control_flow.append(self.text_flow[0][1])
         self.control_flow.append(self.drop_boxes[0].rect)
         
     def fill_tile_queue_order(self):
         '''fill tile queue to specific level order '''
         self.tile_queue = []
         self.tile_queue.append(self.btn_dict['down_arrow'])
-        self.tile_queue.append(self.btn_dict['right_arrow'])
             
     def tile_queue_layout(self):
         '''starting layout of unselected tiles from the tile queue'''
@@ -101,6 +108,9 @@ class Level1(game.Game):
             surface.blit(self.control_arrow, self.control_arrow_rect)
         else:
             surface.blit(self.control_arrow_paused, self.control_arrow_rect)
+            
+        for obj,rect in self.text_flow:
+            surface.blit(obj, rect)
         
     def cleanup(self):
         pass
