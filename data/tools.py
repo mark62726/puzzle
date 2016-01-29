@@ -336,6 +336,7 @@ def from_center(obj_rect, new_pos=(0,0)):
     return (x,y)
     
 def color_surface(surface, red, green, blue):
+    '''requires numpy module on users end'''
     arr = pg.surfarray.pixels3d(surface)
     arr[:,:,0] = red
     arr[:,:,1] = green

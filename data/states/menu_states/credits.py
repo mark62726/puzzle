@@ -18,7 +18,7 @@ class Credits(menus.Menus):
             'Developers'    :['metulburr'],
             'Artists'       :[],
             'Assets'        :['bensound.com'],
-            'Software'      :['Python', 'Pygame'],
+            'Software'      :['Python', 'Pygame', 'Numpy'],
         }
         self.make_credit_surf()
     

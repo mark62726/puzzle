@@ -9,6 +9,7 @@ class Level1(game.Game):
         #self.level_name = 'Level1'
         self.drop_boxes = [
             drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (-400,-25))),
+            #drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (-400,225))),
         ]
         self.setup_text_flow()
         self.fill_tile_queue_order()
@@ -34,6 +35,8 @@ class Level1(game.Game):
         self.control_flow.append(self.start_text_rect)
         self.control_flow.append(self.text_flow[0][1])
         self.control_flow.append(self.drop_boxes[0].rect)
+        #self.control_flow.append(self.drop_boxes[1].rect)
+        #self.control_flow.append(self.end_text_rect)
         
     def fill_tile_queue_order(self):
         '''fill tile queue to specific level order '''
@@ -70,25 +73,28 @@ class Level1(game.Game):
             
     def all_boxes_full(self):
         for box in self.drop_boxes:
-            if not box.empty:
-                return True
+            if box.empty:
+                return False
+        return True
             
     def update_control_arrow(self, now):
         '''pause/start control flow, change pause/start arrow color, and move arrow'''
         if self.all_boxes_full(): 
             self.control_paused = False
+            #if self.drop_boxes[0].occupant.control == 'down_arrow':
             if now-self.timer > 1000:
                 self.timer = now
                 self.control_flow_index += 1
                 if self.control_flow_index > len(self.control_flow)-1:
                     self.control_flow_index = 0
+                
             self.control_arrow_rect.y = self.control_flow[self.control_flow_index].y
         else:
             self.control_paused = True
-            self.control_flow_index = 0
         
     def additional_update(self, now, keys, scale):
-        self.update_control_arrow(now)
+        if now > 1000:
+            self.update_control_arrow(now)
         for box in self.drop_boxes:
             box.update()
         for drag in self.tile_queue:
@@ -99,7 +105,7 @@ class Level1(game.Game):
             tile.update(self.screen_rect, self.mouse_pos, scale)
             if tile.click:
                 self.controlled_drag = tile
-        
+                
     def additional_render(self, surface):
         for box in self.drop_boxes:
             box.render(surface)
