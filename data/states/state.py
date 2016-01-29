@@ -15,7 +15,7 @@ class State:
         self.music = prepare.MUSIC
         self.mouse_pos = (0,0)
         
-        self.buttons = tools.strip_from_sheet(prepare.GFX['arrows'], (0,0), (62,62), 5,3)
+        self.buttons = tools.strip_from_sheet(prepare.GFX['arrows'], (0,0), (62,62), 5,4)
         self.btn_dict = {
             'turnaround_arrow'      :tile.Tile('turnaround_arrow',  self.buttons[0]),
             'right_arrow'           :tile.Tile('right_arrow',       self.buttons[1]),
@@ -45,6 +45,8 @@ class State:
             'flex_u_arrow'          :tile.Tile(None, self.buttons[12]),
             'bent_arrow_up'         :tile.Tile(None, self.buttons[13]),
             's_curve_arrow'         :tile.Tile(None, self.buttons[14]),
+            'jump'                  :tile.Tile('jump', self.buttons[15]),
+            'jump2'                  :tile.Tile('jump', self.buttons[15]),
         }
         
     def update(self, now, keys, scale):

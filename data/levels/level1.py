@@ -64,7 +64,7 @@ class Level1(game.Game):
         else:
             self.control_paused = True
             
-        if self.control_flow_index == len(self.drop_boxes)+2:
+        if self.control_flow_index == len(self.control_flow)-1:
             self.level_complete_sound.play()
             self.done = True
         
