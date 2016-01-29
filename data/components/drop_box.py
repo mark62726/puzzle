@@ -18,6 +18,8 @@ class DropBox:
         self.rect = self.rect_orig.inflate((self.border,self.border))
         self.empty = True
         self.occupant = None
+        self.place_tile_sound = prepare.SFX['button2']
+        self.place_tile_sound.set_volume(.2)
         
     def draw_rect(self):
         pg.draw.rect(self.image, self.color, pg.Rect((0,0),self.size), self.border)
@@ -26,6 +28,8 @@ class DropBox:
         if event.type == pg.MOUSEBUTTONUP and event.button == 1:
             if obj:
                 if self.rect.colliderect(obj.rect):
+                    if self.empty:
+                        self.place_tile_sound.play()
                     self.set_occupant(obj)
         elif event.type == pg.MOUSEMOTION:
             if self.occupant and self.rect:

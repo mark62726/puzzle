@@ -3,12 +3,14 @@ from .. import prepare, tools
 from ..components import drop_box
 from ..states import game
 
-class Level1(game.Game):
+class Level2(game.Game):
     def __init__(self):
         game.Game.__init__(self)
-        self.next = 'LEVEL2'
+        #self.level_name = 'Level1'
+        self.next = 'MENU'
         self.drop_boxes = [
             drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (-400,-25))),
+            #drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (-400,225))),
         ]
         self.setup_text_flow()
         self.setup_start_text() #update text to class name
@@ -99,7 +101,6 @@ class Level1(game.Game):
             self.control_paused = True
             
         if self.control_flow_index == len(self.drop_boxes)+2:
-            self.level_complete_sound.play()
             self.done = True
         
     def additional_update(self, now, keys, scale):
@@ -130,7 +131,7 @@ class Level1(game.Game):
             
         for obj,rect in self.text_flow:
             surface.blit(obj, rect)
-            
+        
     def reset(self):
         self.control_flow_index = 0
         self.tile_queue_layout()

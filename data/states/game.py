@@ -14,6 +14,8 @@ class Game(state.State):
         self.tile_rect = self.btn_dict['square'].rect #arbitrary single object for sizing
         self.setup_control_arrows()
         self.control_paused = None
+        self.level_complete_sound = prepare.SFX['positive']
+        self.level_complete_sound.set_volume(.5)
         
     def get_level_num(self):
         return self.__class__.__name__[5:]
@@ -34,6 +36,8 @@ class Game(state.State):
         self.control_arrow = pg.transform.smoothscale(arrows[0], (75,100))
         self.control_arrow = pg.transform.rotate(self.control_arrow, 270)
         self.control_arrow_rect = self.control_arrow.get_rect()
+        self.control_arrow_col = self.control_arrow_rect.copy()
+        self.control_arrow_col.width = 5000
 
     def setup_bg(self, screen_rect):
         self.bg_orig = prepare.GFX['bg']
