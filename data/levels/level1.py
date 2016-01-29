@@ -25,7 +25,7 @@ class Level1(game.Game):
         '''setup arbitrary texts for control flow'''
         self.text_flow = []
         self.text_flow.append(
-            self.make_text('var = NULL;', (245,245,245), (300,350), 50, prepare.FONTS['hackers'])
+            self.make_text('var = NULL;', (245,245,245), (300,350), 50, prepare.FONTS['impact'])
         )
         
     def control_flow_order(self):
