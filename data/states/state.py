@@ -49,3 +49,9 @@ class State:
         
     def update(self, now, keys, scale):
         self.mouse_pos = tools.scaled_mouse_pos(scale)
+        
+    def make_text(self,message,color,center,size, fonttype):
+        font = pg.font.Font(fonttype, size)
+        text = font.render(message,True,color)
+        rect = text.get_rect(center=center)
+        return text,rect

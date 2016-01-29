@@ -26,15 +26,9 @@ class Menus(state.State):
         self.title, self.title_rect = self.make_text(
             self.title_text, (75,75,75), (self.screen_rect.centerx, 75), 150, prepare.FONTS['3rdman'])
         
-    def make_text(self,message,color,center,size, fonttype):
-        font = pg.font.Font(fonttype, size)
-        text = font.render(message,True,color)
-        rect = text.get_rect(center=center)
-        return text,rect
-        
     def pre_render_options(self):
-        font_deselect = pg.font.Font(prepare.FONTS['impact'], 50)
-        font_selected = pg.font.Font(prepare.FONTS['impact'], 75)
+        font_deselect = pg.font.Font(prepare.FONTS['magazine'], 75)
+        font_selected = pg.font.Font(prepare.FONTS['magazine'], 100)
 
         rendered_msg = {"des":[],"sel":[]}
         for option in self.options:

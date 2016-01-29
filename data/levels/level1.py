@@ -6,24 +6,29 @@ from ..states import game
 class Level1(game.Game):
     def __init__(self):
         game.Game.__init__(self)
+        #self.level_name = 'Level1'
         self.drop_boxes = [
-            drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (-500,0))),
-            drop_box.DropBox(self.tile_rect.size, self.screen_rect.center)
+            drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (-400,-200))),
         ]
 
         self.fill_tile_queue_order()
         self.tile_queue_layout()
         self.controlled_drag = None
         self.fill_drop_box_layout()
-        self.control_flow_order
+        self.control_flow_order()
+        self.control_flow_index = 0
+        self.setup_start_text() #update text to class name
+        self.setup_end_text(pos=(300,450))
+        self.control_pause = False
         
     def control_flow_order(self):
         '''order of control flow to complete level'''
         self.control_flow = []
-        #self.control_flow.append()
+        self.control_flow.append(self.start_text_rect)
+        self.control_flow.append(self.drop_boxes[0].rect)
         
     def fill_tile_queue_order(self):
-        '''file tile queue to specific level order '''
+        '''fill tile queue to specific level order '''
         self.tile_queue = []
         self.tile_queue.append(self.btn_dict['down_arrow'])
         self.tile_queue.append(self.btn_dict['right_arrow'])
@@ -55,10 +60,24 @@ class Level1(game.Game):
             tile.get_event(event)
         for box in self.drop_boxes:
             box.get_event(event, self.controlled_drag)
+            
+    def update_control_arrow(self, now):
+        '''pause/start control flow, change pause/start arrow color, and move arrow'''
+        for box in self.drop_boxes:
+            if not box.empty: 
+                #all boxes contain a tile
+                self.control_paused = False
+                if now-self.timer > 1000:
+                    self.timer = now
+                    self.control_flow_index += 1
+                    if self.control_flow_index > len(self.control_flow)-1:
+                        self.control_flow_index = 0
+                self.control_arrow_rect.y = self.control_flow[self.control_flow_index].y
+            else:
+                self.control_paused = True
         
     def additional_update(self, now, keys, scale):
-        if now-self.timer > 1000:
-            self.timer = now
+        self.update_control_arrow(now)
         for box in self.drop_boxes:
             box.update()
         for drag in self.tile_queue:
@@ -77,6 +96,11 @@ class Level1(game.Game):
             v.render(surface)
         for tile in self.drop_box_queue:
             tile.render(surface)
+            
+        if not self.control_paused:
+            surface.blit(self.control_arrow, self.control_arrow_rect)
+        else:
+            surface.blit(self.control_arrow_paused, self.control_arrow_rect)
         
     def cleanup(self):
         pass

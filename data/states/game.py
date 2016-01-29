@@ -9,8 +9,33 @@ class Game(state.State):
     '''
     def __init__(self):
         state.State.__init__(self)
+        self.next = 'MENU'
         self.setup_bg(self.screen_rect)
         self.tile_rect = self.btn_dict['square'].rect #arbitrary single object for sizing
+        self.setup_control_arrow()
+        #self.text, self.text_rect = 
+        self.setup_start_text()
+        self.setup_end_text((0,0))
+        
+        
+    def get_level_num(self):
+        return self.__class__.__name__[5:]
+        
+    def setup_start_text(self):
+        self.start_text, self.start_text_rect = self.make_text(
+            'Start({})'.format(self.get_level_num()), (245,245,245), (300,200), 50, prepare.FONTS['hackers'])
+            
+    def setup_end_text(self, pos):
+        self.end_text, self.end_text_rect = self.make_text(
+            'return 0;', (245,245,245), pos, 50, prepare.FONTS['hackers'])
+        
+    def setup_control_arrow(self):
+        self.control_arrow_orig = prepare.GFX['green_arrow']
+        self.control_arrow_paused_orig = self.control_arrow_orig.copy()
+        self.control_arrow_paused = pg.transform.smoothscale(self.control_arrow_paused_orig, (75,50))
+        tools.color_surface(self.control_arrow_paused, 245,0,0)
+        self.control_arrow = pg.transform.smoothscale(self.control_arrow_orig, (75,50))
+        self.control_arrow_rect = self.control_arrow.get_rect()
 
     def setup_bg(self, screen_rect):
         self.bg_orig = prepare.GFX['bg']
@@ -34,8 +59,9 @@ class Game(state.State):
         
     def update(self, now, keys, scale):
         pg.mouse.set_visible(True)
-        if now-self.timer > 1000:
-            self.timer = now
+        #if now-self.timer > 100:
+        #    self.timer = now
+            #print('sec')
         self.additional_update(now, keys, scale)
                 
     def additional_render(self):
@@ -45,6 +71,8 @@ class Game(state.State):
     def render(self, surface):
         surface.blit(self.bg,(0,0))
         self.additional_render(surface)
+        surface.blit(self.start_text, self.start_text_rect)
+        surface.blit(self.end_text, self.end_text_rect)
         
     def cleanup(self):
         pass

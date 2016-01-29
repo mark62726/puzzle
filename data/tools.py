@@ -10,17 +10,6 @@ import argparse
 import traceback
 from time import gmtime, strftime
 import platform
-
-class ScaledMouseHandler:
-    position = (0,0)
-    @staticmethod
-    def scaled_rel(new_pos):
-        old_pos = ScaledMouseHandler.position
-        diffX = new_pos[0]-old_pos[0]
-        diffY = new_pos[1]-old_pos[1]
-        ScaledMouseHandler.position = new_pos
-        return (diffX, diffY)
-        
         
 class DB:
     dirname = 'save'
@@ -45,16 +34,19 @@ class DB:
 class Error:
     @staticmethod
     def create_report():
-        open('error.log','w').close()
+        filename = 'error.log'
+        if not os.path.exists(filename):
+            open(filename,'w').close()
         
         date = 'DATE: {}'.format(strftime("%m-%d-%Y %H:%M:%S", gmtime()))
-        os = 'OS: {}'.format(platform.platform())
+        OS = 'OS: {}'.format(platform.platform())
         s = traceback.format_exc()
-        f = open('error.log', 'r+')
+        f = open(filename, 'r+')
         content = f.read()
         f.seek(0, 0)
         f.write('{}\n'.format(date))
-        f.write('{}\n'.format(os))
+        f.write('{}\n'.format(OS))
+        f.write('Python Version: {}\n'.format(sys.version))
         f.write('{}\n'.format(s))
         f.write(content)
         f.close()
@@ -342,3 +334,9 @@ def from_center(obj_rect, new_pos=(0,0)):
     if new_pos[1]:
         y += new_pos[1]
     return (x,y)
+    
+def color_surface(surface, red, green, blue):
+    arr = pg.surfarray.pixels3d(surface)
+    arr[:,:,0] = red
+    arr[:,:,1] = green
+    arr[:,:,2] = blue

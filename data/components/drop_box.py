@@ -3,8 +3,8 @@ from .. import prepare, tools
 
 class DropBox:
     def __init__(self, size, pos):
-        self.color_full = (255,0,0)
-        self.color_empty = (255,255,255)
+        self.color_full = (255,255,255)
+        self.color_empty = (255,0,0)
         self.color = self.color_full
         self.border = 10
         size = list(size)
