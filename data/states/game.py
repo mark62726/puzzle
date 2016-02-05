@@ -16,6 +16,8 @@ class Game(state.State):
         self.control_paused = None
         self.level_complete_sound = prepare.SFX['positive']
         self.level_complete_sound.set_volume(.5)
+        self.fail_sound = prepare.SFX['negative']
+        self.fail_sound.set_volume(.5)
         self.tile_queue = []
         self.control_flow_index = 0
         self.controlled_drag = None
@@ -41,6 +43,18 @@ class Game(state.State):
         self.control_arrow = pg.transform.smoothscale(arrows[0], (75,100))
         self.control_arrow = pg.transform.rotate(self.control_arrow, 270)
         self.control_arrow_rect = self.control_arrow.get_rect()
+        self.control_column = { #control_arrow y position
+            'left'  :0,
+            'middle':500,
+            'right' :1000,
+        }
+        self.control_pos = 'left'
+        
+    def set_control(self, column):
+        if column not in self.control_column.keys():
+            raise KeyError('Incorrect key, must be left, middle, or right')
+        self.control_arrow_rect.x = self.control_column[column]
+        self.control_pos = column
 
     def setup_bg(self, screen_rect):
         self.bg_orig = prepare.GFX['bg']
@@ -61,7 +75,7 @@ class Game(state.State):
             v.get_event(event)
         for tile in self.drop_box_queue:
             tile.get_event(event)
-        for box in self.drop_boxes:
+        for box in self.drop_boxes.values():
             box.get_event(event, self.controlled_drag)
         
     def additional_update(self, now, keys, scale):
@@ -71,7 +85,7 @@ class Game(state.State):
     def update(self, now, keys, scale):
         pg.mouse.set_visible(True)
         self.additional_update(now, keys, scale)
-        for box in self.drop_boxes:
+        for box in self.drop_boxes.values():
             box.update()
         for drag in self.tile_queue:
             drag.update(self.screen_rect, self.mouse_pos, scale)
@@ -91,7 +105,7 @@ class Game(state.State):
         self.additional_render(surface)
         surface.blit(self.start_text, self.start_text_rect)
         surface.blit(self.end_text, self.end_text_rect)
-        for box in self.drop_boxes:
+        for box in self.drop_boxes.values():
             box.render(surface)
         for v in reversed(self.tile_queue):
             v.render(surface)
@@ -103,7 +117,7 @@ class Game(state.State):
         else:
             surface.blit(self.control_arrow_paused, self.control_arrow_rect)
             
-        for obj,rect in self.text_flow:
+        for obj,rect in self.text_flow.values():
             surface.blit(obj, rect)
 
     def tile_queue_layout(self):
@@ -115,7 +129,7 @@ class Game(state.State):
             obj.true_pos = list(obj.rect.center)
             
     def all_boxes_full(self):
-        for box in self.drop_boxes:
+        for box in self.drop_boxes.values():
             if box.empty:
                 return False
         return True

@@ -2,8 +2,8 @@ import pygame as pg
 from .. import prepare, tools
 
 class Tile(object):
-    def __init__(self, control, image, pos=(0,0)):
-        self.control = control
+    def __init__(self, value, image, pos=(0,0)):
+        self.value = value
         self.image = image
         self.rect = self.image.get_rect(topleft=pos)
         self.click = False
