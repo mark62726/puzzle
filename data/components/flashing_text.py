@@ -1,7 +1,7 @@
 import pygame as pg
 
 class FlashingText:
-    def __init__(self, msg, color1, color2, center, size, fonttype):
+    def __init__(self, msg, color1, color2, center, size, fonttype, delay):
         self.msg = msg
         self.color1 = color1
         self.color2 = color2
@@ -10,6 +10,7 @@ class FlashingText:
         self.center = center
         self.size = size 
         self.fonttype = fonttype
+        self.delay = delay
         self.make_text(msg, color1, center, size, fonttype)
         self.timer = 0.0
         
@@ -19,7 +20,7 @@ class FlashingText:
         self.rect = self.text.get_rect(center=center)
         
     def update(self, now):
-        if now-self.timer > 500:
+        if now-self.timer > self.delay:
             self.timer = now
             self.flip = not self.flip
             if self.flip:

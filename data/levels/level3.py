@@ -1,18 +1,19 @@
 import pygame as pg
 from .. import prepare, tools
-from ..components import drop_box
+from ..components import drop_box, flashing_text
 from ..states import game
 
 class Level3(game.Game):
     def __init__(self):
         game.Game.__init__(self)
-        self.next = 'MENU' #switch to level4 when complete
+        self.next = 'MENU'
         self.drop_boxes = {
             'move_down':drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (100,-120))),
             'move_right':drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (-400,-120))),
             'move_left':drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (100,75))),
 
         }
+        self.flash_text = flashing_text.FlashingText('CORRUPTED', (255,255,255),(255,0,0),(300,500), 75, prepare.FONTS['arcade'], 200)
         self.setup_end_text(pos=(300,700))
         self.setup_text_flow()
         self.fill_tile_queue_order()
@@ -24,7 +25,7 @@ class Level3(game.Game):
     def setup_text_flow(self):
         '''setup arbitrary texts for control flow'''
         self.text_flow = {
-            'corrupt':self.make_text('CORRUPTED', (255,255,255),(300,500), 75, prepare.FONTS['arcade']),
+            #'corrupt':self.make_text('CORRUPTED', (255,255,255),(300,500), 75, prepare.FONTS['arcade']),
             'break':self.make_text('break;', (255,255,255), (300,600), 75, prepare.FONTS['leet']),
             'var':self.make_text('var = 1;', (255,255,255), (300,300), 75, prepare.FONTS['arcade']),
             'while':self.make_text('while(true)', (255,255,255), (800,500), 75, prepare.FONTS['impact']),
@@ -37,7 +38,8 @@ class Level3(game.Game):
             self.start_text_rect,
             self.text_flow['var'][1],
             self.drop_boxes['move_right'].rect,
-            self.text_flow['corrupt'][1],
+            self.flash_text.rect,
+            #self.text_flow['corrupt'][1],
             self.text_flow['break'][1],
             self.end_text_rect,
             self.drop_boxes['move_down'].rect,
@@ -49,7 +51,6 @@ class Level3(game.Game):
     def fill_tile_queue_order(self):
         '''fill tile queue to specific level order '''
         self.tile_queue = [
-            self.btn_dict['right_arrow'],
         ]
             
     def fill_drop_box_layout(self):
@@ -57,9 +58,11 @@ class Level3(game.Game):
         self.drop_box_queue = [
             self.btn_dict['down_arrow'],
             self.btn_dict['left_arrow'],
+            self.btn_dict['right_arrow'],
         ]
         self.drop_boxes['move_right'].set_occupant(self.drop_box_queue[0])
         self.drop_boxes['move_down'].set_occupant(self.drop_box_queue[1])
+        self.drop_boxes['move_left'].set_occupant(self.drop_box_queue[2])
             
     def update_control_arrow(self, now):
         '''pause/start control flow, change pause/start arrow color, and move arrow'''
@@ -91,8 +94,6 @@ class Level3(game.Game):
                 elif self.control_flow_index == 9:
                     self.set_control('left')
                     self.control_flow_index = 0
-                    
-                
                 
             self.control_arrow_rect.centery = self.control_flow[self.control_flow_index].centery
         else:
@@ -105,9 +106,10 @@ class Level3(game.Game):
         
     def additional_update(self, now, keys, scale):
         self.update_control_arrow(now)
+        self.flash_text.update(now)
                 
     def additional_render(self, surface):
-        pass
+        self.flash_text.render(surface)
             
     def reset(self):
         self.control_flow_index = 0
