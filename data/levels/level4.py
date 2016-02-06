@@ -3,10 +3,10 @@ from .. import prepare, tools
 from ..components import drop_box
 from ..states import game
 
-class Level3(game.Game):
+class Level4(game.Game):
     def __init__(self):
         game.Game.__init__(self)
-        self.next = 'MENU' #switch to level4 when complete
+        self.next = 'MENU'
         self.drop_boxes = {
             'move_down':drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (100,-120))),
             'move_right':drop_box.DropBox(self.tile_rect.size, tools.from_center(self.screen_rect, (-400,-120))),
