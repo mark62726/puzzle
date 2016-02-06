@@ -50,7 +50,6 @@ class Level3(game.Game):
     def fill_tile_queue_order(self):
         '''fill tile queue to specific level order '''
         self.tile_queue = [
-            self.btn_dict['right_arrow'],
         ]
             
     def fill_drop_box_layout(self):
@@ -58,9 +57,11 @@ class Level3(game.Game):
         self.drop_box_queue = [
             self.btn_dict['down_arrow'],
             self.btn_dict['left_arrow'],
+            self.btn_dict['right_arrow'],
         ]
         self.drop_boxes['move_right'].set_occupant(self.drop_box_queue[0])
         self.drop_boxes['move_down'].set_occupant(self.drop_box_queue[1])
+        self.drop_boxes['move_left'].set_occupant(self.drop_box_queue[2])
             
     def update_control_arrow(self, now):
         '''pause/start control flow, change pause/start arrow color, and move arrow'''
@@ -129,6 +130,7 @@ class Level3(game.Game):
         self.control_flow_index = 0
         self.tile_queue_layout()
         self.fill_drop_box_layout()
+        self.var.value = 0
         
     def cleanup(self):
         self.reset()
